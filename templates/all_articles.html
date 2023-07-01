@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/all_articles.css')}}">
+{% endblock head %}
+
+{% block content %}
+
+{% for article in articles %}
+  <h1>{{article.title}}</h1>
+  <h3>By {{article.author}}</h3>
+  <p class="article-control"><pre>{{article.content}}</pre></p>
+  <h4>{{article.created_on.strftime('%d/%b/%Y')}}</h4>
+
+  {% if current_user.id == article.user_id %}
+    <div class="button-group" role="group">
+      <a class="btn btn-primary" href="{{url_for('edit', id=article.id)}}">Update</a> 
+      <a class="btn btn-primary" href="{{url_for('delete', id=article.id)}}">Delete</a>
+      <a class="btn btn-primary" data-toggle="modal" data-target="#commentModal{{article.id}}">Leave a Comment</a>
+      <a class="btn btn-primary" href="{{url_for('single_article', article_id=article.id)}}">View Comments</a>
+    </div>
+  {% else %}
+    <div class="button-group" role="group">
+      <a class="btn btn-primary" data-toggle="modal" data-target="#commentModal{{ article.id }}">Leave a Comment</a>
+      <a class="btn btn-primary" href="{{url_for('single_article', article_id=article.id)}}">View Comments</a>
+    </div>
+  {% endif %}
+
+  <!-- Comment Modal -->
+  <div class="modal fade" id="commentModal{{ article.id }}" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel{{ article.id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="commentModalLabel{{ article.id }}">Leave a Comment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{{ url_for('submit_comment', article_id=article.id) }}">
+            {{ comment_form.hidden_tag() }}
+            <div class="form-group">
+              {{ comment_form.name.label }}
+              {{ comment_form.name(class="form-control") }}
+            </div>
+            <div class="form-group">
+              {{ comment_form.email.label }}
+              {{ comment_form.email(class="form-control") }}
+            </div>
+            <div class="form-group">
+              {{ comment_form.content.label }}
+              {{ comment_form.content(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Add a Comment</h1>
+  <hr class="hr hr-blurry" />
+
+  <form method="POST" action="{{ url_for('add_comment') }}">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group">
+      {{ form.text.label(class="form-label") }}
+      {{ form.text(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock content %}

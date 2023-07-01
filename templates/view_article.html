@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ article.title }}</h1>
+  <p>{{ article.content }}</p>
+
+  {% if article.is_authenticated %}
+    <p>This article is authenticated.</p>
+  {% else %}
+    <form action="{{ url_for('view_article', article_id=article.id) }}" method="POST">
+      <input type="submit" value="Authenticate Article">
+    </form>
+  {% endif %}
+{% endblock %}

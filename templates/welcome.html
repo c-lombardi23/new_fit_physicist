@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/style8.css')}}">
+{% endblock head %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to The Fit Physicist!</h1>
+    <p class="lead">Hello {{username}}, you are now signed in.</p>
+    <hr class="my-4">
+    <p>Please enjoy all of our free content and feel free to leave us a message or follow us on instagram.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </p>
+  </div>
+
+{% endblock content %}
