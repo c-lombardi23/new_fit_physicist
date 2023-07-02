@@ -55,7 +55,6 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(80), nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
-    is_authenticated = db.Column(db.Boolean, default = False)
     
     def __repr__(self):
         return f"User <{self.username}>"
