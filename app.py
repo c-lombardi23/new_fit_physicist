@@ -135,7 +135,9 @@ def contact():
     
     return render_template('contact.html')
 
-login_manager = LoginManager(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'index'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -194,7 +196,11 @@ def index():
             return jsonify(message="Sign up successful")
 
         elif action == 'login':
-            # Login logic
+   
+            if current_user.is_authenticated:
+                return jsonify(message="Another user is already logged in"), 400
+
+    
             username = request.json.get('username')
             password = request.json.get('password')
 
@@ -203,13 +209,13 @@ def index():
 
             user = User.query.filter_by(username=username).first()
 
-            if user and check_password_hash(user.password_hash, password):
-                login_user(user)
-                flash(f"Hello {username}, Welcome to the Fit Physicist!")
-                return jsonify(message="Login successful")
+            if not user or not check_password_hash(user.password_hash, password):
+                flash("Incorrect login information! Try again")
+                return jsonify(message="Login failed")
 
-            flash("Incorrect login information! Try again")
-            return jsonify(message="Login failed")
+            login_user(user)
+            flash(f"Hello {username}, Welcome to the Fit Physicist!")
+            return jsonify(message="Login successful")
                 
     # Handle GET request or other cases
     articles = Article.query.all()
