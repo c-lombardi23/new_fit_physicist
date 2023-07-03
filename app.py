@@ -11,6 +11,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename, send_from_directory
+import re
 
 
 
@@ -51,8 +52,8 @@ class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
-    first_name = db.Column(db.String(50), nullable=False, unique=True)
-    last_name = db.Column(db.String(50), nullable=False, unique=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(80), nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
     
@@ -100,12 +101,11 @@ class CommentForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-
         
 with app.app_context():
     db.create_all()
-        
-    
+
+
 @app.route('/about')
 def about():
     return render_template('about.html', title="The Fit Physicist-About")
@@ -152,15 +152,17 @@ def submit_comment(article_id):
     if comment_form.validate_on_submit():
         comment = Comment(
             text=comment_form.content.data,
-            user=current_user,
-            article=article
+            user_id=current_user.id,
+            created_on = datetime.now(),
+            article_id=article.id
         )
         db.session.add(comment)
         db.session.commit()
         flash("Comment submitted successfully!")
-        return redirect(url_for('article', article_id=article_id))
+        return redirect(url_for('single_article', article_id=article_id))
 
-    return render_template('comment_form.html', comment_form=comment_form)
+    return render_template('article.html', comment_form=comment_form, article=article)
+
 
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -186,6 +188,21 @@ def index():
             email_exists = User.query.filter_by(email=email).first()
             if email_exists:
                 return jsonify(message="This email is already registered"), 400
+            
+            if len(password) < 8:
+                return jsonify(message="Password must be at least 8 characters!"), 400
+            
+            special_characters = ['!', '@', '$', '%', '^', '&', '*', '(', ')', '?', '/', '~', '`']
+            if not any(char in special_characters for char in password):
+                return jsonify(message="Password must contain special characters!"), 400
+            
+            if not any(char.isdigit() for char in password):
+                return jsonify(message="Password must contain at least one number!"), 400
+            
+            email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+            if not re.match(email_regex, email):
+                return jsonify(message="Invalid email address"), 400
+
 
             # Create a new user
             password_hash = generate_password_hash(password)
@@ -196,11 +213,11 @@ def index():
             return jsonify(message="Sign up successful")
 
         elif action == 'login':
-   
+    # Check if a user is already logged in
             if current_user.is_authenticated:
                 return jsonify(message="Another user is already logged in"), 400
 
-    
+    # Login logic
             username = request.json.get('username')
             password = request.json.get('password')
 
@@ -248,6 +265,13 @@ def view_article(article_id):
 
     return render_template('view_article.html', article=article)
 
+@app.route('/view_all')
+def view_all():
+    articles=Article.query.all()
+    articles = [article for article in articles if article.is_authenticated]
+    comment_form = CommentForm()
+    return render_template('new.html', articles=articles, comment_form=comment_form)
+
 
 @app.route('/all_articles')
 @login_required
@@ -256,7 +280,7 @@ def all_articles():
     articles = [article for article in articles if article.is_authenticated]
     comment_form = CommentForm()
 
-    return render_template('all_articles.html', title="All Articles", articles=articles, comment_form=comment_form)
+    return render_template('new.html', title="All Articles", articles=articles, comment_form=comment_form)
 
 @app.route('/article')
 def article():
@@ -266,13 +290,13 @@ def article():
             'title': 'Calisthenics Primer',
             'description': "A beginner's intro to calisthenics, with workout plans and other advice",
             'image': 'https://www.dmarge.com/wp-content/uploads/2022/01/most-difficult-handstand-1200x800.jpg',
-            'url': '#',
+            'url': url_for('calisthentics_primer'),
         },
         {
             'title': 'Basic Nutrition Advice',
             'description': "This is a good starting point for those just starting to track their diets",
             'image': 'http://worldonline.media.clients.ellingtoncms.com/img/croppedphotos/2017/02/27/healthy-diet_t640.jpg?a6ea3ebd4438a44b86d2e9c39ecf7613005fe067',
-            'url': '#',
+            'url': url_for('nutrition_advice'),
         },
         {
             'title': 'Cardio Workouts',
@@ -344,6 +368,14 @@ def welcome():
 def cardio_article():
     return render_template('cardio_workouts.html', title="Cardio Workouts")
 
+@app.route('/calisthenics_primer')
+def calisthentics_primer():
+    return render_template('calisthenics_primer.html', title="Calisthenics Primer")
+
+@app.route('/nutrition_advice')
+def nutrition_advice():
+    return render_template('nutrition_advice.html', title="Nutrition Advice")
+
 @app.errorhandler(401)
 def unauthorized_error(error):
     return render_template('error.html', error_code=401, error_message="Please Log in to View this Page"), 401
@@ -363,6 +395,22 @@ def single_article(article_id):
     article = Article.query.get_or_404(article_id)
     comments = Comment.query.filter_by(article_id=article_id).all()
     return render_template('single_article.html', title="The Fit Physicist", article=article, comments=comments)
+
+@app.route('/delete_comment/<int:comment_id>', methods=["POST"])
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+
+    # Check if the current user is the owner of the comment
+    if comment.user_id == current_user.id or current_user.id == 1:
+        db.session.delete(comment)
+        db.session.commit()
+        flash("Comment deleted successfully!")
+    else:
+        flash("You are not authorized to delete this comment.")
+
+    # Redirect back to the article page or wherever you want to go after deletion
+    return redirect(url_for('single_article', article_id=comment.article_id))
 
     
 @app.route('/edit/<int:id>', methods=["GET", "POST"])
