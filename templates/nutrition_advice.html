@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/style8.css')}}">
+{% endblock head %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1>Basic Nutrition Advice</h1>
+    <p class="lead">Nutrition is an essential to achieving your desired goals. While it can seem overwhelming, dieting can be broken down into simple principles.</p>
+    <hr class="hr hr-blurry" />
+    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80">
+    <br>
+    <h3>My Experience</h3>
+    <p>
+        Although I am a frim believer that you can achieve results even when your diet is not completely in check, this is obviously not the best way to achieve optimal results in as little time as possible.
+    </p>
+    <hr class="hr hr-blurry" />
+    <h3>Getting Started</h3>
+    <p>
+        Here I will discuss the basic tenets of acheiving a healthy diet plan. Calories consumed is the most important part to any diet, with breaking down macronutrients coming in a close second. Once these two areas are covered, it is up to you to remain vigilent and follow through
+    </p>
+    <hr class="hr hr-blurry"/>
+    <div id="list-example" class="list-group">
+      <a class="list-group-item list-group-item-action" href="#list-item-1" data-bs-toggle="collapse" data-bs-target="#list-item-1" aria-expanded="false" aria-controls="list-item-1">Calories</a>
+      <div class="collapse" id="list-item-1">
+        <p>
+            Caloric needs have to be the number one priority when starting any diet plan. Based on your goals, you can taylor the amount of calories consumed to achieve different bodyweight goals. For example, if you want 
+            to gain muscle, you need to eat in a caloric surplus whereas if you want to lose fat, you need to eat under your maintenance calories. There are many tools on the internet that can provide you with a calculator to 
+            find out your BMR or 'Basic Metabolic Rate'. This is the number of calories that your body consumes every day just to maintain itself. When exercise is included in the equation, this number will go up and needs to be 
+            included to find out your daily needs. If you know your body fat percentage, that's even better since it will provide a more accurate calculation of your basic calorie consumption. One ound of fat is approximately 3500 calories, so to burn a pound of fat a week 
+            or to gain one pound of muscle a week, you would to decrease or increase your calories by that amount respectively. Your food choices are important of course, but the number of calories consumed takes precedent and will be the number one factor 
+            in achieving your goals. 
+        </p>
+      </div>
+      <a class="list-group-item list-group-item-action" href="#list-item-2" data-bs-toggle="collapse" data-bs-target="#list-item-2" aria-expanded="false" aria-controls="list-item-2">Protein</a>
+      <div class="collapse" id="list-item-2">
+        <p>
+            After your caloric needs are taken care of you, you can start tracking you macronutrient consumption. Protein is, of course, extremely important in building muscle and losing fat and needs to be consumed in adequte amounts. This macronutrient has an anabolic effect and contains essential 
+            amino acids that are not produced by the body. Because protein contains over twenty amino acids, it is the number one dietary source to provide the body with the fuel it needs. How much protein you need to consume is another matter entirely.
+            Some people reccomend up to 2 grams per pound of bodyweight, while the FDA says that you can get away with as little as 70 grams a day, but most people settle on the one gram per pound of bodyweight mantra. However, this is a little simplistic and unrealistic depending on your bodyweight. Plus, 
+            protein tends to be a relatively expensive food item. I personally try and consume about one pound of protein for every pound of lean muscle I have. This comes from my estimated body fat percentage, but it is of course a rough estimate at best. My advice is to try out different amounts and see what works for you.
+            Monitoring your progress in the mirror is the best way to see if its working. It you are losing fat or gaining muscle in a visually obvious way, your diet is working and doesn't need to be stressed about too much. Protein is also very satiating. When on a diet, hunger can become a big problem, and if you dont have the mental fortitude, can
+            lead to binge eating and ruining your diet. Adequate amounts of protein in the diet can mitigate this problem and keep you on track. 
+        </p>
+      </div>
+      <a class="list-group-item list-group-item-action" href="#list-item-3" data-bs-toggle="collapse" data-bs-target="#list-item-3" aria-expanded="false" aria-controls="list-item-3">Carbohydrates</a>
+      <div class="collapse" id="list-item-3">
+        <p>
+            Carbohydrates provide the body with glucose which is essential to converting food to energy during exercise. In fact, glucose is the preffered source which the body uses to fuel itself during exertion, making carbs essential to any athlete or fitness enthusiast. The source of your Carbohydrates
+            is the most important factor. The healthiest sources of this nutrient come from whole grains and uprocessed foods such as grains, legumes, and vegetables. These sources provide something called complex carbohydrates which do not immediately spike your blood sugar and are slowly digested by the body.
+            This provides you with long lasting energy and doesn't lead to a crash later on. There are also simple carbohydrate sources such as white bread, fructose based snacks and other processed foods. These, in contrast to complex carbs, are known to spike the blood sugar and then drop it rapidly, leading to 
+            energy crashes and are not optimal for preventing fat gain. Typically, you would want to stick to complex carbohydrates throughout the day, especially in the morning, as this will help you to maintain steady energy levels and fuel your workout. Simple carbs do have their place though. Post workout, when your muscles have become
+            depleted of glycogen, simple carbs are highly effective. They can help shuttle glycogen back to your tired muscles and help to increase anabolism after exercise.My favorite carb sources are black beands, quinoa, lentils. I also like to use grapes after a work because they are pure glucose. 
+        </p>
+      </div>
+      <a class="list-group-item list-group-item-action" href="#list-item-4" data-bs-toggle="collapse" data-bs-target="#list-item-4" aria-expanded="false" aria-controls="list-item-4">Fat</a>
+      <div class="collapse" id="list-item-4">
+        <p>
+            Fat is another nutrient which has many subdivisions. At the most basic level, there are unsaturated and saturated fats. Unsaturated fats are generally considered to be healthy and are actually essential to keeping the body in its most optimal state. They are known to reduce 
+            cholesterol and improve heart rhythms. Nuts, avocado, and and certain oild contain high levels of this fat type and are to be included in your diet. Omega-3's are a very important type of unsaturated fat as well. They are not made by the body and must be 
+            received from food consumption. Fish is known to contain high amounts of this nutrient, which is why i reccomend everyone to eat fish at least a couple times of week. In contrast to unsaturated fats, saturated fats are to be avoided as much as possible. These are known to 
+            raise bad cholesterol significantly which put you at risk for heart disease. Common sources of saturated fat are cheeses, milk, and fast food. In fact, dairy products in particular are considered to be generally unhealthy and are to be avoided in most situations. There is a third source of fat which is actually considered to 
+            be even worse than saturated fat when it comes to heart health: trans fat. This source is extremely detrimental to your blood circulation and cholesterol level and should remain absent from your diet if possible. Most food labels record their trans fat contents nowadays, so it is possible to remove it from your diet.  
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock content %}
