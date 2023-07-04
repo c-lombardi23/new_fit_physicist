@@ -108,6 +108,7 @@ class CommentForm(FlaskForm):
         
 with app.app_context():
     db.create_all()
+    
 
 @sitemap.register_generator
 def index_sitemap():
@@ -442,10 +443,24 @@ def edit(id):
         if request.method == 'POST':
             new_title = request.form.get('title')
             new_content = request.form.get('content')
+            new_image = request.files['image']
 
             if new_title and new_content:  # Ensure the new title is not empty
                 article_edit.title = new_title
                 article_edit.content = new_content
+
+            if new_image:
+                if article_edit.image:
+                    # Remove the existing image file from the file system
+                    old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], article_edit.image)
+                    if os.path.exists(old_image_path):
+                        os.remove(old_image_path)
+
+                # Save the new image file to the file system
+                filename = secure_filename(new_image.filename)
+                new_image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                article_edit.image = filename
+                
 
             db.session.commit()
 
