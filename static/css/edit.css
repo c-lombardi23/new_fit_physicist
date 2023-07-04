@@ -52,3 +52,22 @@ h3{
 .btn-primary:hover {
     background-color: aqua;
 }
+/* Custom Quill Editor Styles */
+.ql-container {
+    border: 1px solid #ccc;
+  }
+  
+  .ql-toolbar {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .ql-editor {
+    min-height: 200px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: white;
+    max-width: 800px;
+  }
+  
