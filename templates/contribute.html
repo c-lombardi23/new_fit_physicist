@@ -2,10 +2,12 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/style6.css')}}">
+<!-- Include Quill's CSS -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-<form method="POST" id="main" enctype="multipart/form-data">
+<form method="POST" id="main" enctype="multipart/form-data" onsubmit="updateContentField()">
   <div class="form-group">
     <h3>Contribute to The Fit Physicist 💜</h3>
   </div>
@@ -21,14 +23,8 @@
   </div>
   <div class="form-group">
     <label for="content">Content</label>
-    <pre><textarea
-    name="content"
-    cols="50"
-    rows="10"
-    class="form-control"
-    placeholder="Place article body here..."
-    required
-    ></textarea></pre>
+    <div id="editor"></div>
+    <input type="hidden" name="content" id="content-field" required>
   </div>
   <div class="form-group">
     <label for="image">Image</label>
@@ -46,7 +42,17 @@
   </div>
 </form>
 
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
+  var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+
+  function updateContentField() {
+    var contentField = document.getElementById("content-field");
+    contentField.value = quill.root.innerHTML; 
+  }
+
   function updateLabel(input) {
     var label = document.getElementById("image-label");
     if (input.files && input.files.length > 0) {
@@ -63,4 +69,4 @@
     label.textContent = "Choose Image";
   }
 </script>
-{% endblock content %}
+{% endblock %}
