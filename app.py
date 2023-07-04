@@ -12,6 +12,7 @@ from wtforms.validators import DataRequired
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename, send_from_directory
 import re
+from flask_sitemap import Sitemap
 
 
 
@@ -23,8 +24,11 @@ app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'clombar1@email.essex.edu'
 app.config['MAIL_PASSWORD'] = '232425'
+app.config['SITEMAP_INCLUDE_RULE_WITHOUT_PARAMS'] = True
 
 mail = Mail(app)
+sitemap = Sitemap(app=app)
+
 
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
@@ -104,6 +108,22 @@ class CommentForm(FlaskForm):
         
 with app.app_context():
     db.create_all()
+
+@sitemap.register_generator
+def index_sitemap():
+    return [
+        ('index', {}),
+        ('about', {}),
+        ('contact', {}),
+        ('article', {}),
+        ('contribute', {}),
+        ('cardio_article', {}),
+        ('nutrition_advice', {})
+    ]
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return sitemap.sitemap_xml()
 
 
 @app.route('/about')
@@ -452,6 +472,8 @@ def delete(id):
     
     flash('You are not authorized to delete this article!')
     return redirect(url_for('index'))
+
+
 
 if __name__ == '__main__':
     app.run(debug=False)
