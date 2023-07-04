@@ -17,7 +17,7 @@
             <div class="card-body" id="custom-card-body">
               <h5 class="card-title">{{article.title}}</h5>
               <p class="card-text overflow-ellipsis">
-                {{article.content}}
+                {{article.content | safe | striptags}}
               </p>
               <p>Posted on: {{article.created_on.strftime('%b/%d/%Y')}} by {{article.author}}</p>
               {% if current_user.id == article.user_id %}
