@@ -113,3 +113,36 @@ h3 {
     text-shadow: 1px 1px 1px black;
     box-shadow: 1px 1px 1px black;
   }
+
+  /* Custom Quill Editor Styles */
+.ql-container {
+  border: 1px solid #ccc;
+}
+
+.ql-toolbar {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ccc;
+}
+
+.ql-toolbar .ql-picker-label {
+  color: #333;
+}
+
+.ql-toolbar .ql-picker-options {
+  padding: 8px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+}
+
+.ql-toolbar .ql-picker-options .ql-picker-item {
+  color: #333;
+}
+
+.ql-editor {
+  background-color: white;
+  min-height: 200px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+
+}
