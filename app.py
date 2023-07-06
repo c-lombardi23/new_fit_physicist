@@ -234,11 +234,11 @@ def index():
             return jsonify(message="Sign up successful")
 
         elif action == 'login':
-    # Check if a user is already logged in
+   
             if current_user.is_authenticated:
                 return jsonify(message="Another user is already logged in"), 400
 
-    # Login logic
+   
             username = request.json.get('username')
             password = request.json.get('password')
 
@@ -253,9 +253,9 @@ def index():
 
             login_user(user)
             flash(f"Hello {username}, Welcome to the Fit Physicist!")
-            return jsonify(message="Login successful")
+            return jsonify(message='Logging you In')
                 
-    # Handle GET request or other cases
+    
     articles = Article.query.all()
     context = {
         "articles": articles
@@ -270,21 +270,34 @@ def logout():
     flash("You have been logged out")
     return redirect(url_for('index'))
 
-@app.route('/articles/<int:article_id>', methods=['GET', 'POST'])
+@app.route('/articles', methods=['GET', 'POST'])
 @login_required
-def view_article(article_id):
-    article = Article.query.get_or_404(article_id)
+def view_article():
+    articles = Article.query.all()
+    not_authenticated = [article for article in articles if not article.is_authenticated]
 
     if current_user.username != 'Chrisl2324':
         flash('You are not authorized to view this article.', 'error')
         return redirect(url_for('home'))
 
-    if request.method == 'POST':
+    return render_template('view_article.html', not_authenticated=not_authenticated)
+
+
+@app.route('/articles/authenticate', methods=['POST'])
+@login_required
+def authenticate_article():
+    article_id = request.form.get('article_id')
+    article = Article.query.get_or_404(article_id)
+
+    if current_user.username == 'Chrisl2324':
         article.is_authenticated = True
         db.session.commit()
         flash('Article authenticated successfully.', 'success')
+    else:
+        flash('You are not authorized to authenticate this article.', 'error')
 
-    return render_template('view_article.html', article=article)
+    return redirect(url_for('view_article'))
+
 
 @app.route('/view_all')
 def view_all():
@@ -480,6 +493,8 @@ def delete(id):
     if current_user.username == article_to_delete.author:
         if request.method == 'GET':
             return render_template('confirm_delete.html', article=article_to_delete)
+        
+        Comment.query.filter_by(article_id=id).delete()
         db.session.delete(article_to_delete)
         db.session.commit()
         flash("Your article has been deleted")

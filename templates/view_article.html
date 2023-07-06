@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% for article in not_authenticated %}
   <h1>{{ article.title }}</h1>
-  <p>{{ article.content }}</p>
-
-  {% if article.is_authenticated %}
-    <p>This article is authenticated.</p>
-  {% else %}
-    <form action="{{ url_for('view_article', article_id=article.id) }}" method="POST">
-      <input type="submit" value="Authenticate Article">
-    </form>
-  {% endif %}
+  <p>{{ article.content | safe }}</p>
+  <form action="{{ url_for('authenticate_article') }}" method="POST">
+    <input type="hidden" name="article_id" value="{{ article.id }}">
+    <input type="submit" value="Authenticate Article">
+  </form>
+{% endfor %}
 {% endblock %}
