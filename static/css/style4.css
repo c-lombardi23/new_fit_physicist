@@ -204,3 +204,15 @@ footer {
     width: 100%;
     font-family: 'Rubik';
 }
+.jumbotron{
+    padding: 2em;
+    margin-top: 2em;
+    width: 90vw;
+    background-image: url('https://i.pinimg.com/originals/7a/1c/04/7a1c04314b9f57d49ecee495486b62f8.jpg');
+}
+h1 {
+    font-family: 'Rubik';
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    
+}

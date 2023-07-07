@@ -32,6 +32,16 @@ h1 {
     overflow: hidden;
 }
 
+@media screen and (max-width: 1050px) {
+    .card {
+        margin-left: 6em;
+       
+    }
+    h1 {
+        margin-left: 1em;
+    }
+    }
+
 .card:last-child {
     margin-bottom: 0;
   }

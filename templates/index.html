@@ -170,10 +170,20 @@
               <span class="visually-hidden">Next</span>
           </a>
       </div>
+      
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="{{url_for('static', filename='signup-level.js')}}"></script>
         <script src="{{url_for('static', filename='login-level.js')}}"></script>
+        <div class="jumbotron">
+          <h1 class="display-4">Join the Revolution!</h1>
+          <p class="lead">Sign up today to enjoy all of our free content. It's easy! Don't miss out on everything we have to offer! </p>
+          <hr class="hr hr-blurry">
+          <p>Check back daily for updated articles and new video tutorials.</p>
+          <p class="lead">
+            <a class="btn btn-primary btn-lg" href="{{url_for('about')}}" role="button">Learn more</a>
+          </p>
+        </div>
   <!-- Footer -->
  
 {% endblock %}
