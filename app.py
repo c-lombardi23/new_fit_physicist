@@ -444,7 +444,7 @@ def delete_comment(comment_id):
         flash("You are not authorized to delete this comment.")
 
     # Redirect back to the article page or wherever you want to go after deletion
-    return redirect(url_for('single_article', article_id=comment.article_id))
+    return redirect(url_for('single_article', title="Delete Comment", article_id=comment.article_id))
 
     
 @app.route('/edit/<int:id>', methods=["GET", "POST"])
@@ -480,7 +480,7 @@ def edit(id):
             flash("Your changes have been saved")
             return redirect(url_for('all_articles'))
 
-        return render_template('edit.html', article=article_edit)
+        return render_template('edit.html', title='Edit Your Article', article=article_edit)
     
     flash("You cannot edit another user's article!")
     return render_template('index.html', title='The Fit Physicist')
@@ -498,7 +498,7 @@ def delete(id):
         db.session.delete(article_to_delete)
         db.session.commit()
         flash("Your article has been deleted")
-        return redirect(url_for('index'))
+        return redirect(url_for('all_articles'))
     
     flash('You are not authorized to delete this article!')
     return redirect(url_for('index'))
