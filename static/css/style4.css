@@ -6,7 +6,7 @@ body {
     position: absolute;
     top: 65px;
     right: 105px;
-    width: 350px;
+    width: 25vw;
     height: auto;
     opacity: .2;
     
@@ -26,6 +26,8 @@ body {
   .hr-blurry {
     color: white;
     width: cover;  }
+
+    
   
   .shadows {
       position: relative;
@@ -36,24 +38,35 @@ body {
       font-family: 'Anton', Arial, sans-serif;
       user-select: none;
       text-transform: uppercase;
-      font-size: 130px;
+      font-size: 11vw;
       transition: all 0.25s ease-out;
-      right: 140px;
+      right: 0.75em;
   }
   .shadows:hover {
       text-shadow: -16px 6px 15px #ced0d3;
   }
+  @media screen and (max-width: 1050px) {
+    .shadows {
+        height: 60vh;
+        text-align: center;
+        font-size: 4em;
+        margin-left: 1em;
+    }
+    .atom {
+        display: none;
+    }
+    
+}
 
 .custom-heading {
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     font-weight: bold;
     text-shadow: 2px 2px 3px black;
     justify-content: center;
     position: relative;
     animation: glow 2s ease-in-out infinite;
-    font-size: 80px;
+    font-size: 5em;
     text-align: center;
     padding-top: 170px;
 }
@@ -72,8 +85,7 @@ body {
 
 h3 {
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     text-shadow: 2px 2px 3px black;
     transform: scale(0);
     animation: scale-in 1s forwards;
@@ -89,13 +101,12 @@ h3 {
 }
 p{ 
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     text-shadow: 1px 1px 1px black;
-    font-size: 18px;
+    
 }
 .button-group {
-    padding: 15px;
+    padding: 0.9375em;
 }
 
 .btn-primary {
@@ -106,13 +117,13 @@ p{
     padding: 10px 20px;
     border-radius: 50px;
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 1em;
     box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 .model-content {
     border: none;
-    border-radius: 15px;
+    border-radius: 0.98em;
 }
 .btn-primary:hover {
     background-color: #FF296D;
@@ -120,7 +131,7 @@ p{
 }
 .modal-body {
     padding: 30px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Rubik';
 }
 .form-control {
     box-shadow: 1px 1px 1px black;    
@@ -191,6 +202,5 @@ p{
 }
 footer {
     width: 100%;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
 }

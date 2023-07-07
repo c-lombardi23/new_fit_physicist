@@ -5,13 +5,12 @@ html, body {
 
 h1 {
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     font-weight: bold;
     text-shadow: 2px 2px 3px black;
     animation: glow 2s ease-in-out infinite;
     font-size: 90px;
-    font-style: italic;
-    float: left;
+    
 }
 
 @keyframes glow {
@@ -33,20 +32,19 @@ h1 {
     height: 100%;
     margin-bottom: 10px;
     overflow: hidden;
-    width: 600px;
-    float: left;
+    width: 50vw;
+   
 }
 
 .card-title {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     font-size: 30px;
     text-align: center;
 }
 
 .btn-primary {
     box-shadow: 1px 1px 2px black;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
 }
 
 .btn-primary:hover {
@@ -55,8 +53,7 @@ h1 {
   }
 
 p {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     
 }
 
@@ -73,7 +70,7 @@ p {
     right: 0;
     width: 440px;
     margin-top: -48px; /* Adjust as needed */
-    padding: 20px;
+    padding: 30px;
     background-color: #f8f9fa;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     margin-right: 40px; /* Adjust the value as needed */
@@ -82,9 +79,17 @@ p {
     height: 800px
 
 }
+@media screen and (max-width: 1050px) {
+    .sidebar {
+        display: none;
+    }
+    .card {
+        width: 90vw;
+    }
+}
+    
 h2 {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     text-align: center;
     color: white;
 }

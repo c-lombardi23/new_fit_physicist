@@ -9,7 +9,6 @@ h1 {
     text-shadow: 2px 2px 3px black;
     animation: glow 2s ease-in-out infinite;
     font-size: 70px;
-    font-style: italic;
     margin-top: 70px;
 }
 
@@ -27,6 +26,5 @@ h1 {
 p {
     color: white;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
     text-shadow: 1px 1px 1px black;
 }

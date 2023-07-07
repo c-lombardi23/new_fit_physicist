@@ -43,13 +43,11 @@ body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;/* Adjust the placeholder color as needed */
   }
   .navbar-brand {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
   }
   
   .nav-link {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
   }
 .flash-messages {
     list-style-type: none;
@@ -62,8 +60,7 @@ body {
     margin-bottom: 10px;
     border-radius: 5px;
     color: white;
-    font-style: italic;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'rubik';
     font-size: 30px;
     text-shadow: 2px 2px 2px black;
     opacity: 0;
@@ -79,8 +76,7 @@ body {
 }
 footer { 
     color: white;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-style: italic;
+    font-family: 'Rubik';
     text-shadow: 1px 1px 1px black;
     background-color: black;
     margin-top: 20px;

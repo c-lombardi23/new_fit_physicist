@@ -19,8 +19,7 @@ body, html {
 }
 h1 {
     color: white;
-    font-style: italic;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     text-shadow: 2px 2px 3px black;
     margin-left: 50px;
     margin-top: 30px;
