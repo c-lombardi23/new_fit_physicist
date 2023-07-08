@@ -7,12 +7,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify
 from flask_mail import Mail, Message
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename, send_from_directory
 import re
 from flask_sitemap import Sitemap
+from sqlalchemy import and_
 
 
 
@@ -49,8 +50,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-
-
 class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -72,16 +71,30 @@ class Article(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     author = db.Column(db.String, nullable=False)
     image = db.Column(db.String)
-    is_authenticated = db.Column(db.Boolean, default=False)  
-
+    is_authenticated = db.Column(db.Boolean, default=False)
+    is_workout = db.Column(db.Boolean, default=False)
+    
 
     user = db.relationship("User", backref=db.backref("articles", lazy=True))
     comments = db.relationship("Comment", back_populates="article")
 
     def __repr__(self):
         return f"Article <{self.title}>"
+    
+class WorkoutArticle(Article):
+    __tablename__ = "workout_articles"
+    id = db.Column(db.Integer, db.ForeignKey("articles.id"), primary_key=True)
+    duration = db.Column(db.String(20), nullable=False)
+    difficulty = db.Column(db.String(20), nullable=False)
+    is_workout = db.Column(db.Boolean, default=True)
+    
+    comments = db.relationship("Comment", backref="workout_article", cascade="all, delete-orphan")
+    
 
-
+    def __repr__(self):
+        return f"WorkoutArticle <{self.title}>"
+    
+    
 class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
@@ -99,12 +112,17 @@ class Comment(db.Model):
     
 class CommentForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()])
     content = StringField('Comment', validators=[DataRequired()])
     submit = SubmitField('Submit')
+    
+class WorkoutArticleForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    duration = StringField('Duration', validators=[DataRequired()])
+    difficulty = StringField('Difficulty', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
-
-        
+  
 with app.app_context():
     db.create_all()
     
@@ -174,7 +192,8 @@ def submit_comment(article_id):
             text=comment_form.content.data,
             user_id=current_user.id,
             created_on = datetime.now(),
-            article_id=article.id
+            article_id=article.id,
+            name = comment_form.name
         )
         db.session.add(comment)
         db.session.commit()
@@ -341,13 +360,13 @@ def article():
             'title': 'Deadlift Basics',
             'description': 'This article provides the basic setup and techniques of the deaflift movement',
             'image': 'https://www.americanfootballinternational.com/wp-content/uploads/Barbend-2021-Deadlift-620x400.png',
-            'url': '#'
+            'url': url_for('single_article', article_id=14)
         },
         {
             'title': 'Supplementation',
             'description': 'My personal experience with supplements and discussion of my favorite brands',
             'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbwctv2YulNCDZ5JTwRK9ry8yz-D1cY-GU1Q&usqp=CAU',
-            'url': '#',
+            'url': url_for('supplements'),
         },
         {
             'title': 'Recovery',
@@ -358,6 +377,57 @@ def article():
     ]
 
     return render_template('article.html', title="Articles", articles=article_previews)
+
+
+@app.route("/submit_workout_comment/<int:article_id>", methods=["GET", "POST"])
+def submit_workout_comment(article_id):
+    article = WorkoutArticle.query.get_or_404(article_id)
+    comment_form = CommentForm()
+
+    if comment_form.validate_on_submit():
+        comment = Comment(
+            text=comment_form.content.data,
+            article_id=article.id,
+            user_id = current_user.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        flash("Comment submitted successfully!")
+        return redirect(url_for("workout_article", article_id=article.id))
+
+    return render_template("workout_article.html", title="Workout Article", article=article, comment_form=comment_form)
+
+
+@app.route('/all_workout_articles')
+def all_workout_articles():
+    workout_articles = WorkoutArticle.query.all()
+    comment_form = CommentForm()
+    return render_template('all_workout_articles.html', title="All Workout Articles", workout_articles=workout_articles, comment_form=comment_form)
+
+@app.route('/submit_workout_article', methods=['GET', 'POST'])
+def submit_workout_article():
+    form = WorkoutArticleForm()
+
+    if form.validate_on_submit():
+        workout_article = WorkoutArticle(
+            title=form.title.data,
+            content=form.content.data,
+            duration=form.duration.data,
+            difficulty=form.difficulty.data,
+            user_id = current_user.id,
+            author = current_user.username,
+            is_workout = True
+            
+        )
+        db.session.add(workout_article)
+        db.session.commit()
+
+        flash('Workout article submitted successfully!')
+        return redirect(url_for('all_workout_articles'))
+
+    return render_template('submit_workout_article.html', form=form)
+
+
 
 @app.route('/contribute', methods=["GET", "POST"])
 @login_required
@@ -405,6 +475,10 @@ def cardio_article():
 def calisthentics_primer():
     return render_template('calisthenics_primer.html', title="Calisthenics Primer")
 
+@app.route('/supplements')
+def supplements():
+    return render_template('supplements.html', title='The Fit Physicist-Supplements')
+
 @app.route('/nutrition_advice')
 def nutrition_advice():
     return render_template('nutrition_advice.html', title="Nutrition Advice")
@@ -418,16 +492,29 @@ def search():
     query = request.args.get('query')
     articles = Article.query.filter(Article.title.ilike(f'%{query}%')).all()
 
+    workout_articles = [article for article in articles if article.is_workout]
+    regular_articles = [article for article in articles if not article.is_workout]
+
     context = {
-        "articles": articles
+        "workout_articles": workout_articles,
+        "regular_articles": regular_articles
     }
+
     return render_template('search_results.html', title="Search Results", query=query, **context)
+
+
 
 @app.route('/single_article/<int:article_id>')
 def single_article(article_id):
     article = Article.query.get_or_404(article_id)
     comments = Comment.query.filter_by(article_id=article_id).all()
     return render_template('single_article.html', title="The Fit Physicist", article=article, comments=comments)
+
+@app.route('/single_workout_article/<int:article_id>')
+def single_workout_article(article_id):
+    article = WorkoutArticle.query.get_or_404(article_id)
+    comments = Comment.query.filter_by(article_id=article_id).all()
+    return render_template('workout_article.html', title="The Fit Physicist", article=article, comments=comments)
 
 @app.route('/delete_comment/<int:comment_id>', methods=["POST"])
 @login_required
@@ -444,6 +531,33 @@ def delete_comment(comment_id):
 
     # Redirect back to the article page or wherever you want to go after deletion
     return redirect(url_for('single_article', title="Delete Comment", article_id=comment.article_id))
+
+@app.route('/edit_workout_article/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_workout_article(id):
+    article_edit = WorkoutArticle.query.get_or_404(id)
+    
+    if current_user.id == article_edit.user_id:
+        if request.method == 'POST':
+            new_title=request.form.get('title')
+            new_content = request.form.get('content')
+            new_duration = request.form.get('duration')
+            new_difficulty = request.form.get('difficulty')
+            
+            if new_title and new_content and new_difficulty and new_duration:
+                article_edit.title = new_title
+                article_edit.content = new_content
+                article_edit.duration = new_duration
+                article_edit.difficulty = new_difficulty
+                
+            db.session.commit()
+            
+            flash("Workout Updated")
+            return redirect(url_for('all_workout_articles'))
+        return render_template('edit_workout_article.html', title='All Workout Articles', article=article_edit)
+    
+    flash("You cannot edit another user's article")
+    return render_template('edit_workout_article.html', title='All Workout Articles', article=article_edit)
 
     
 @app.route('/edit/<int:id>', methods=["GET", "POST"])
@@ -497,7 +611,7 @@ def delete(id):
         db.session.delete(article_to_delete)
         db.session.commit()
         flash("Your article has been deleted")
-        return redirect(url_for('all_articles'))
+        return redirect(url_for('index'))
     
     flash('You are not authorized to delete this article!')
     return redirect(url_for('index'))

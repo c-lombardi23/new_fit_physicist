@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/style8.css')}}">
+{% endblock head %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1>Supplementation</h1>
+    <p class="lead">With careful selection, certain supplements can be beneficial to your fitness routine.</p>
+    <hr class="hr hr-blurry" />
+    <img src="https://www.justintimept.com/wp-content/uploads/Supplement-Image.jpg">
+    <br>
+    <h3>My Experience</h3>
+    <p>
+        Although I am a strong believer that you can achieve incredible results without using any supplements at all, this is sometimes unrealistic.
+        For example, I weigh roughly 170 pounds and usually aim to eat 150 grams of protein a day which is about 0.9 grams per pound. Wihtout including protein shakes,
+        one of the most popular supplements into my diet, it would be fairly difficult to hit this number. Basically my experience with supplements is to include them to ease any gaps that 
+        may arise in my diet. I would highly reccomend getting your diet in check before adding on supplements, as diet quality is much more important in the grand-scheme of things. 
+    </p>
+    <hr class="hr hr-blurry" />
+    <h3>Getting Started</h3>
+    <p>
+      Certain supplements are staples in my diet and I encourage you to look into them if you are serious about you fitness level.
+    </p>
+    <hr class="hr hr-blurry"/>
+    <div id="list-example" class="list-group">
+      <a class="list-group-item list-group-item-action" href="#list-item-1" data-bs-toggle="collapse" data-bs-target="#list-item-1" aria-expanded="false" aria-controls="list-item-1">Protein Powder</a>
+      <div class="collapse" id="list-item-1">
+        <p>
+            As I mentioned above, this supplement is more of a convenience than anything. If you are able to get all of your protein from real, whole foods, then maybe
+            you can forgo this one, but most of us will need some sort of protein supplementation to achieve their daily nutritional needs. Protein powder is also great before and after a workout
+            when you don't want to fill up on food. This allows you to get your protein requirements quickly and effectively without the side effects of eating a full meal. Make sure to look for powders that 
+            use whey protein isolate beacuse it has a lower lactose level as well as fewer carbs that its concentrate version. Whey protein in general is the best choice
+            because it is quickly absorbed by the body, making it useful anytime of the day. 
+        </p>
+      </div>
+      <a class="list-group-item list-group-item-action" href="#list-item-2" data-bs-toggle="collapse" data-bs-target="#list-item-2" aria-expanded="false" aria-controls="list-item-2">Multivitamins</a>
+      <div class="collapse" id="list-item-2">
+        <p>
+            Again, Multivitamins are a convenience but in most cases they probably end up being a neccessity. Most people in today's world have trouble getting all the vitamins and minerals that the body needs from diet alone. If you are an
+            athlete, your vitamin intake needs to be at an even higher level. For this reason, incorporating a multivitamin can really round out your diet. Look for brands
+            that include a complete profile in ther vitamins, including amino acids since these are essential for building and maintaining muscle mass.
+        </p>
+      </div>
+      <a class="list-group-item list-group-item-action" href="#list-item-3" data-bs-toggle="collapse" data-bs-target="#list-item-3" aria-expanded="false" aria-controls="list-item-3">Pre-Workout</a>
+      <div class="collapse" id="list-item-3">
+        <p>
+            Pre-Workout powders are a great addtion to any fitness enthusiast's arsenal. They provide an easy energy boost before a workout and can motivate you to exercise when you can't find motivation elshwere. 
+            Personally, I have definitley utilized these extensively in my fitness routine. Look for options that enumerate their ingredients specifically on the label, 
+            instead of just saying something like 'proprietary blend', so you know exactly what your are getting. You also want to have one that provides a healthy dose of caffeine since that is going to be the primary stimulant used. 
+            I like mine to be dosed at 300mg or close to it. Anything under 200mg is considered weak unless the serving requires more than one scoop. Beta-alanine is another key ingredient which benefits the production of
+            carnosine to help with muscular endurance. Aim for pre-workouts that contains at least 2 grams of this amino acid. 
+        </p>
+      </div>
+      <a class="list-group-item list-group-item-action" href="#list-item-4" data-bs-toggle="collapse" data-bs-target="#list-item-4" aria-expanded="false" aria-controls="list-item-4">Creatine</a>
+      <div class="collapse" id="list-item-4">
+        <p>
+            This is everyone's favorite and it could actually have its own article since there are so many varieties of creatine out there now. I have definitely experimented with this supplement in the past and have found it 
+            to be effective. Creatine monohydrate is the most common form and it has been shown to increase muscle size and muscle endurance in numerous studies available online. Aim for brands that have at least 5 grams
+            of creatine per serving since that is the most commonly reccomended dosage. There are also other creatine forms such as creating hydrochloride and creatine ethly-ester which are supposed to decrease the possible bloating effects that 
+            come with the monohydrate form. However, more research still needs to be conducted to support these claims more concretley. 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
