@@ -13,11 +13,7 @@ from flask_migrate import Migrate
 from werkzeug.utils import secure_filename, send_from_directory
 import re
 from flask_sitemap import Sitemap
-<<<<<<< HEAD
-from sqlalchemy import and_
-=======
-import psycopg2
->>>>>>> a16da7548604a865b9f14f56a399dd388c6a5065
+
 
 
 
