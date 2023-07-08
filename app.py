@@ -13,6 +13,7 @@ from flask_migrate import Migrate
 from werkzeug.utils import secure_filename, send_from_directory
 import re
 from flask_sitemap import Sitemap
+import psycopg2
 
 
 
