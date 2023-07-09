@@ -8,6 +8,7 @@ import app
 from flask_login import current_user, login_required, login_user
 from models_forms import db
 import re
+import os
 
 main_bp = Blueprint('main', __name__)
 
