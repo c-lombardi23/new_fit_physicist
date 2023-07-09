@@ -26,7 +26,7 @@ h1 {
 }
 h2 {
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     text-shadow: 2px 2px 2px black;
     margin-left: 35px;
 }   
@@ -40,12 +40,12 @@ h2 {
     right: 0
 }
 .navbar .navbar-brand {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     color: white;
     padding: 15px
 }
 .navbar.nav li {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     padding: 5px;
     text-align: right;
 }
@@ -63,7 +63,7 @@ h2 {
     background-color: black;
     color: white;
     text-align: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     padding-bottom: 6px;
 }
 .header-container {
@@ -78,7 +78,7 @@ h2 {
     color: yellow;
 }
 .row {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     margin-top: 20px;
 }
 .row > div > img {

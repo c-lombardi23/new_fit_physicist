@@ -12,7 +12,7 @@
 <ul>
     {% for article in workout_articles %}
     <li>
-        <a href="{{ url_for('single_workout_article', article_id=article.id) }}" class="result-link">{{ article.title }}</a>
+        <a href="{{ url_for('article.single_article', article_id=article.id) }}" class="result-link">{{ article.title }}</a>
     </li>
     {% endfor %}
 </ul>
@@ -20,17 +20,17 @@
 <p>No workout articles found</p>
 {% endif %}
 
-<h2>Regular Articles</h2>
+<h2>Blog Articles</h2>
 {% if regular_articles %}
 <ul>
-    {% for article in regular_articles %}
+    {% for article in blog_articles %}
     <li>
-        <a href="{{ url_for('single_article', article_id=article.id) }}" class="result-link">{{ article.title }}</a>
+        <a href="{{ url_for('article.single_article', article_id=article.id) }}" class="result-link">{{ article.title }}</a>
     </li>
     {% endfor %}
 </ul>
 {% else %}
-<p>No regular articles found</p>
+<p>No blog articles found</p>
 {% endif %}
 
 {% endblock content %}

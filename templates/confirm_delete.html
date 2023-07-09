@@ -9,9 +9,9 @@
 <h1>Delete Article</h1>
 <p>Are you sure you want to delete the article: {{ article.title }}?</p>
 
-<form method="POST" action="{{ url_for('delete', id=article.id) }}">
+<form method="POST" action="{{ url_for('article.delete', id=article.id) }}">
   <input type="submit" value="Delete" class="delete-button">
-  <a href="{{ url_for('index') }}" class="cancel-link">Cancel</a>
+  <a href="{{ url_for('main.index') }}" class="cancel-link">Cancel</a>
 </form>
 
 {% endblock content %}

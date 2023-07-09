@@ -25,17 +25,17 @@
               {% endif %}
               {% if current_user.id == article.user_id %}
               <div class="button-group" role="group">
-                <a href="{{url_for('single_article', article_id=article.id)}}" class="btn btn-primary mb-2">Read</a>
-                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('edit', id=article.id)}}">Update</a> 
-                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('delete', id=article.id)}}">Delete</a>
+                <a href="{{url_for('article.single_article', article_id=article.id)}}" class="btn btn-primary mb-2">Read</a>
+                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('article.edit', id=article.id)}}">Update</a> 
+                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('article.delete', id=article.id)}}">Delete</a>
                 <a class="btn btn-primary mr-2 mb-2" data-toggle="modal" data-target="#commentModal{{article.id}}">Leave a Comment</a>
-                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('single_article', article_id=article.id)}}">View Comments</a>
+                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('article.single_article', article_id=article.id)}}">View Comments</a>
               </div>
               {% else %}
               <div class="button-group" role="group">
-                <a href="{{url_for('single_article', article_id=article.id)}}" class="btn btn-primary mb-2">Read</a>
+                <a href="{{url_for('article.single_article', article_id=article.id)}}" class="btn btn-primary mb-2">Read</a>
                 <a class="btn btn-primary mr-2 mb-2" data-toggle="modal" data-target="#commentModal{{ article.id }}">Leave a Comment</a>
-                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('single_article', article_id=article.id)}}">View Comments</a>
+                <a class="btn btn-primary mr-2 mb-2" href="{{url_for('article.single_article', article_id=article.id)}}">View Comments</a>
               </div>
               {% endif %}
             </div>
@@ -49,7 +49,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form method="POST" action="{{ url_for('submit_comment', article_id=article.id) }}">
+                    <form method="POST" action="{{ url_for('article.submit_comment', article_id=article.id) }}">
                       {{ comment_form.hidden_tag() }}
                       <div class="form-group">
                         {{ comment_form.name.label }}

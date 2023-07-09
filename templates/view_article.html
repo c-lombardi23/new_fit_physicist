@@ -4,7 +4,7 @@
 {% for article in not_authenticated %}
   <h1>{{ article.title }}</h1>
   <p>{{ article.content | safe }}</p>
-  <form action="{{ url_for('authenticate_article') }}" method="POST">
+  <form action="{{ url_for('article.authenticate_article') }}" method="POST">
     <input type="hidden" name="article_id" value="{{ article.id }}">
     <input type="submit" value="Authenticate Article">
   </form>

@@ -1,26 +1,27 @@
-from flask import Flask, flash, render_template, url_for, request, redirect
+from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 import os
-from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
-from datetime import datetime
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, login_user, logout_user
 from flask import jsonify
 from flask_mail import Mail, Message
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename, send_from_directory
-import re
 from flask_sitemap import Sitemap
+from models_forms import db
+from routes.main_routes import main_bp
+from routes.authenticate_routes import authenticate_bp
+from routes.article_routes import article_bp
+from models_forms import User
 import psycopg2
 
 
 
-
-
-
 app = Flask(__name__, static_url_path='/static')
+app.register_blueprint(main_bp)
+app.register_blueprint(authenticate_bp)
+app.register_blueprint(article_bp)
+
+
 app.config['MAIL_SERVER'] = 'smtp@gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
@@ -31,104 +32,29 @@ app.config['SITEMAP_INCLUDE_RULE_WITHOUT_PARAMS'] = True
 mail = Mail(app)
 sitemap = Sitemap(app=app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'main.index'
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 base_dir = os.path.dirname(os.path.realpath(__file__))
 UPLOAD_FOLDER = os.path.join(app.root_path, 'static/uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://fit_physicist_user:HjCs4tGdPe8Q1no1eGet4dlHvoLU1heD@dpg-cikur095rnuvtgop0png-a:5432/fit_physicist"
-
 app.config["SQLACLHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = 'you-will-never-guess1315123'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-
-db = SQLAlchemy(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 
-
-class User(db.Model, UserMixin):
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False, unique=True)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(80), nullable=False, unique=True)
-    password_hash = db.Column(db.Text, nullable=False)
-    
-    def __repr__(self):
-        return f"User <{self.username}>"
-
-class Article(db.Model):
-    __tablename__ = "articles"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
-    content = db.Column(db.String, nullable=False)
-    created_on = db.Column(db.DateTime, default=datetime.now())
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    author = db.Column(db.String, nullable=False)
-    image = db.Column(db.String)
-    is_authenticated = db.Column(db.Boolean, default=False)
-    is_workout = db.Column(db.Boolean, default=False)
-    
-
-    user = db.relationship("User", backref=db.backref("articles", lazy=True))
-    comments = db.relationship("Comment", back_populates="article")
-
-    def __repr__(self):
-        return f"Article <{self.title}>"
-    
-class WorkoutArticle(Article):
-    __tablename__ = "workout_articles"
-    id = db.Column(db.Integer, db.ForeignKey("articles.id"), primary_key=True)
-    duration = db.Column(db.String(20), nullable=False)
-    difficulty = db.Column(db.String(20), nullable=False)
-    is_workout = db.Column(db.Boolean, default=True)
-    
-    comments = db.relationship("Comment", backref="workout_article", cascade="all, delete-orphan")
-    
-
-    def __repr__(self):
-        return f"WorkoutArticle <{self.title}>"
-    
-    
-class Comment(db.Model):
-    __tablename__ = "comments"
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(255), nullable=False)
-    created_on = db.Column(db.DateTime, default=datetime.now())
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    article_id = db.Column(db.Integer, db.ForeignKey("articles.id"), nullable=False)
-
-    user = db.relationship("User", backref=db.backref("comments", lazy=True))
-    article = db.relationship("Article", back_populates="comments")
-
-    def __repr__(self):
-        return f"Comment <{self.text}>"
-
-    
-class CommentForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    content = StringField('Comment', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-    
-class WorkoutArticleForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    duration = StringField('Duration', validators=[DataRequired()])
-    difficulty = StringField('Difficulty', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-  
-with app.app_context():
-    db.create_all()
-    
-
+ 
 @sitemap.register_generator
 def index_sitemap():
     return [
@@ -146,480 +72,8 @@ def sitemap():
     return sitemap.sitemap_xml()
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title="The Fit Physicist-About")
-
-@app.route('/uploads/<filename>')
-def image_route(filename):
-    try:
-        return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-    except FileNotFoundError:
-        # Handle the case when the image file is not found
-        return 'Image not found', 404
-    
-@app.route('/contact', methods=["GET", "POST"])
-def contact():
-    if request.method == "POST":
-        sender = request.form.get('name')
-        email = request.form.get('email')
-        title = request.form.get('title')
-        message = request.form.get('message')
-        priority = request.form.get('priority')
-            
-        msg = Message(title, sender=email, recipients=['clombar1@email.essex.edu'])
-        msg.body = f"Name: {sender}\nEmail: {email}\n\n{message}"
-        mail.send(msg)
-
-        return 'Email sent!'
-    
-    return render_template('contact.html')
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'index'
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-@app.route('/submit_comment/<int:article_id>', methods=["POST"])
-@login_required
-def submit_comment(article_id):
-    article = Article.query.get_or_404(article_id)
-    comment_form = CommentForm()
-
-    if comment_form.validate_on_submit():
-        comment = Comment(
-            text=comment_form.content.data,
-            user_id=current_user.id,
-            created_on = datetime.now(),
-            article_id=article.id,
-            name = comment_form.name
-        )
-        db.session.add(comment)
-        db.session.commit()
-        flash("Comment submitted successfully!")
-        return redirect(url_for('single_article', article_id=article_id))
-
-    return render_template('article.html', comment_form=comment_form, article=article)
-
-
-@app.route('/', methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        action = request.json.get('action')
-        if action == 'register':
-            # Registration logic
-            username = request.json.get('username')
-            first_name = request.json.get('first_name')
-            last_name = request.json.get('last_name')
-            email = request.json.get('email')
-            password = request.json.get('password')
-
-            # Validate form values
-            if not username or not first_name or not last_name or not email or not password:
-                return jsonify(message="Please fill in all fields"), 400
-
-            # Check if username or email already exists
-            username_exists = User.query.filter_by(username=username).first()
-            if username_exists:
-                return jsonify(message="This username already exists"), 400
-
-            email_exists = User.query.filter_by(email=email).first()
-            if email_exists:
-                return jsonify(message="This email is already registered"), 400
-            
-            if len(password) < 8:
-                return jsonify(message="Password must be at least 8 characters!"), 400
-            
-            special_characters = ['!', '@', '$', '%', '^', '&', '*', '(', ')', '?', '/', '~', '`']
-            if not any(char in special_characters for char in password):
-                return jsonify(message="Password must contain special characters!"), 400
-            
-            if not any(char.isdigit() for char in password):
-                return jsonify(message="Password must contain at least one number!"), 400
-            
-            email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-            if not re.match(email_regex, email):
-                return jsonify(message="Invalid email address"), 400
-
-
-            # Create a new user
-            password_hash = generate_password_hash(password)
-            new_user = User(username=username, first_name=first_name, last_name=last_name, email=email, password_hash=password_hash)
-            db.session.add(new_user)
-            db.session.commit()
-
-            return jsonify(message="Sign up successful")
-
-        elif action == 'login':
-   
-            if current_user.is_authenticated:
-                return jsonify(message="Another user is already logged in"), 400
-
-   
-            username = request.json.get('username')
-            password = request.json.get('password')
-
-            print(f"Received username: {username}")
-            print(f"Received password: {password}")
-
-            user = User.query.filter_by(username=username).first()
-
-            if not user or not check_password_hash(user.password_hash, password):
-                flash("Incorrect login information! Try again")
-                return jsonify(message="Login failed")
-
-            login_user(user)
-            flash(f"Hello {username}, Welcome to the Fit Physicist!")
-            return jsonify(message='Logging you In')
-                
-    
-    articles = Article.query.all()
-    context = {
-        "articles": articles
-    }
-
-    return render_template('index.html', title='The Fit Physicist', **context)
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash("You have been logged out")
-    return redirect(url_for('index'))
-
-@app.route('/articles', methods=['GET', 'POST'])
-@login_required
-def view_article():
-    articles = Article.query.all()
-    not_authenticated = [article for article in articles if not article.is_authenticated]
-
-    if current_user.username != 'Chrisl2324':
-        flash('You are not authorized to view this article.', 'error')
-        return redirect(url_for('home'))
-
-    return render_template('view_article.html', not_authenticated=not_authenticated)
-
-
-@app.route('/articles/authenticate', methods=['POST'])
-@login_required
-def authenticate_article():
-    article_id = request.form.get('article_id')
-    article = Article.query.get_or_404(article_id)
-
-    if current_user.username == 'Chrisl2324':
-        article.is_authenticated = True
-        db.session.commit()
-        flash('Article authenticated successfully.', 'success')
-    else:
-        flash('You are not authorized to authenticate this article.', 'error')
-
-    return redirect(url_for('view_article'))
-
-
-@app.route('/view_all')
-def view_all():
-    articles=Article.query.all()
-    articles = [article for article in articles if article.is_authenticated]
-    comment_form = CommentForm()
-    return render_template('new.html', articles=articles, comment_form=comment_form)
-
-
-@app.route('/all_articles')
-@login_required
-def all_articles():
-    articles = Article.query.all()
-    articles = [article for article in articles if article.is_authenticated]
-    comment_form = CommentForm()
-
-    return render_template('new.html', title="All Articles", articles=articles, comment_form=comment_form)
-
-@app.route('/article')
-def article():
-    
-    article_previews = [
-        { 
-            'title': 'Calisthenics Primer',
-            'description': "A beginner's intro to calisthenics, with workout plans and other advice",
-            'image': 'https://www.dmarge.com/wp-content/uploads/2022/01/most-difficult-handstand-1200x800.jpg',
-            'url': url_for('calisthentics_primer'),
-        },
-        {
-            'title': 'Basic Nutrition Advice',
-            'description': "This is a good starting point for those just starting to track their diets",
-            'image': 'http://worldonline.media.clients.ellingtoncms.com/img/croppedphotos/2017/02/27/healthy-diet_t640.jpg?a6ea3ebd4438a44b86d2e9c39ecf7613005fe067',
-            'url': url_for('nutrition_advice'),
-        },
-        {
-            'title': 'Cardio Workouts',
-            'description': 'Various workouts based on circuit-style, designed for maximum calorie burn',
-            'image': 'https://www.shape.com/thmb/qr6AnPByfid8VTqqv9nrKgJOUr0=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-cardio-exercises-promo-2000-498cbfb8f07541b78572bf810e7fb600.jpg',
-            'url': url_for('cardio_article')
-        },
-        {
-            'title': 'Deadlift Basics',
-            'description': 'This article provides the basic setup and techniques of the deaflift movement',
-            'image': 'https://www.americanfootballinternational.com/wp-content/uploads/Barbend-2021-Deadlift-620x400.png',
-            'url': url_for('single_article', article_id=14)
-        },
-        {
-            'title': 'Supplementation',
-            'description': 'My personal experience with supplements and discussion of my favorite brands',
-            'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbwctv2YulNCDZ5JTwRK9ry8yz-D1cY-GU1Q&usqp=CAU',
-            'url': url_for('supplements'),
-        },
-        {
-            'title': 'Recovery',
-            'description': 'Various techniques to enhance and facilitate recovery from strenous exercise',
-            'image': 'https://images.pexels.com/photos/3076509/pexels-photo-3076509.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'url': url_for('cardio_article')
-        }
-    ]
-
-    return render_template('article.html', title="Articles", articles=article_previews)
-
-
-@app.route("/submit_workout_comment/<int:article_id>", methods=["GET", "POST"])
-def submit_workout_comment(article_id):
-    article = WorkoutArticle.query.get_or_404(article_id)
-    comment_form = CommentForm()
-
-    if comment_form.validate_on_submit():
-        comment = Comment(
-            text=comment_form.content.data,
-            article_id=article.id,
-            user_id = current_user.id
-        )
-        db.session.add(comment)
-        db.session.commit()
-        flash("Comment submitted successfully!")
-        return redirect(url_for("workout_article", article_id=article.id))
-
-    return render_template("workout_article.html", title="Workout Article", article=article, comment_form=comment_form)
-
-
-@app.route('/all_workout_articles')
-def all_workout_articles():
-    workout_articles = WorkoutArticle.query.all()
-    comment_form = CommentForm()
-    return render_template('all_workout_articles.html', title="All Workout Articles", workout_articles=workout_articles, comment_form=comment_form)
-
-@app.route('/submit_workout_article', methods=['GET', 'POST'])
-def submit_workout_article():
-    form = WorkoutArticleForm()
-
-    if form.validate_on_submit():
-        workout_article = WorkoutArticle(
-            title=form.title.data,
-            content=form.content.data,
-            duration=form.duration.data,
-            difficulty=form.difficulty.data,
-            user_id = current_user.id,
-            author = current_user.username,
-            is_workout = True
-            
-        )
-        db.session.add(workout_article)
-        db.session.commit()
-
-        flash('Workout article submitted successfully!')
-        return redirect(url_for('all_workout_articles'))
-
-    return render_template('submit_workout_article.html', form=form)
-
-
-
-@app.route('/contribute', methods=["GET", "POST"])
-@login_required
-def contribute():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        user_id = current_user.id
-        author = current_user.username
-        image = request.files['image'] 
-
-        title_exists = Article.query.filter_by(title=title).first()
-        if title_exists:
-            flash("This article already exists. Please choose a new title.")
-            return redirect(url_for('contribute'))
-                
-        if image:
-            filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            new_article = Article(title=title, content=content, user_id=user_id, author=author, image=filename)
-        else:
-            new_article = Article(title=title, content=content, user_id=user_id, author=author, image=None)
-               
-        
-        db.session.add(new_article)
-        db.session.commit()
-
-        flash("Thanks for sharing with us!\nYour article will be reviewed")
-        return redirect(url_for('index'))
-        
-    
-    
-    return render_template('contribute.html', title="The Fit Physicist-Contribute")
-
-@app.route('/welcome')
-@login_required
-def welcome():
-    return render_template('welcome.html', title="Welcome to the Fit Physicist")
-
-@app.route('/cardio_workouts')
-def cardio_article():
-    return render_template('cardio_workouts.html', title="Cardio Workouts")
-
-@app.route('/calisthenics_primer')
-def calisthentics_primer():
-    return render_template('calisthenics_primer.html', title="Calisthenics Primer")
-
-@app.route('/supplements')
-def supplements():
-    return render_template('supplements.html', title='The Fit Physicist-Supplements')
-
-@app.route('/nutrition_advice')
-def nutrition_advice():
-    return render_template('nutrition_advice.html', title="Nutrition Advice")
-
-@app.errorhandler(401)
-def unauthorized_error(error):
-    return render_template('error.html', error_code=401, error_message="Please Log in to View this Page"), 401
-
-@app.route('/search')
-def search():
-    query = request.args.get('query')
-    articles = Article.query.filter(Article.title.ilike(f'%{query}%')).all()
-
-    workout_articles = [article for article in articles if article.is_workout]
-    regular_articles = [article for article in articles if not article.is_workout]
-
-    context = {
-        "workout_articles": workout_articles,
-        "regular_articles": regular_articles
-    }
-
-    return render_template('search_results.html', title="Search Results", query=query, **context)
-
-
-
-@app.route('/single_article/<int:article_id>')
-def single_article(article_id):
-    article = Article.query.get_or_404(article_id)
-    comments = Comment.query.filter_by(article_id=article_id).all()
-    return render_template('single_article.html', title="The Fit Physicist", article=article, comments=comments)
-
-@app.route('/single_workout_article/<int:article_id>')
-def single_workout_article(article_id):
-    article = WorkoutArticle.query.get_or_404(article_id)
-    comments = Comment.query.filter_by(article_id=article_id).all()
-    return render_template('workout_article.html', title="The Fit Physicist", article=article, comments=comments)
-
-@app.route('/delete_comment/<int:comment_id>', methods=["POST"])
-@login_required
-def delete_comment(comment_id):
-    comment = Comment.query.get_or_404(comment_id)
-
-    # Check if the current user is the owner of the comment
-    if comment.user_id == current_user.id or current_user.id == 1:
-        db.session.delete(comment)
-        db.session.commit()
-        flash("Comment deleted successfully!")
-    else:
-        flash("You are not authorized to delete this comment.")
-
-    # Redirect back to the article page or wherever you want to go after deletion
-    return redirect(url_for('single_article', title="Delete Comment", article_id=comment.article_id))
-
-@app.route('/edit_workout_article/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_workout_article(id):
-    article_edit = WorkoutArticle.query.get_or_404(id)
-    
-    if current_user.id == article_edit.user_id:
-        if request.method == 'POST':
-            new_title=request.form.get('title')
-            new_content = request.form.get('content')
-            new_duration = request.form.get('duration')
-            new_difficulty = request.form.get('difficulty')
-            
-            if new_title and new_content and new_difficulty and new_duration:
-                article_edit.title = new_title
-                article_edit.content = new_content
-                article_edit.duration = new_duration
-                article_edit.difficulty = new_difficulty
-                
-            db.session.commit()
-            
-            flash("Workout Updated")
-            return redirect(url_for('all_workout_articles'))
-        return render_template('edit_workout_article.html', title='All Workout Articles', article=article_edit)
-    
-    flash("You cannot edit another user's article")
-    return render_template('edit_workout_article.html', title='All Workout Articles', article=article_edit)
-
-    
-@app.route('/edit/<int:id>', methods=["GET", "POST"])
-@login_required
-def edit(id):
-    article_edit = Article.query.get_or_404(id)
-
-    if current_user.username == article_edit.author:
-        if request.method == 'POST':
-            new_title = request.form.get('title')
-            new_content = request.form.get('content')
-            new_image = request.files['image']
-
-            if new_title and new_content:  # Ensure the new title is not empty
-                article_edit.title = new_title
-                article_edit.content = new_content
-
-            if new_image:
-                if article_edit.image:
-                    # Remove the existing image file from the file system
-                    old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], article_edit.image)
-                    if os.path.exists(old_image_path):
-                        os.remove(old_image_path)
-
-                # Save the new image file to the file system
-                filename = secure_filename(new_image.filename)
-                new_image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                article_edit.image = filename
-                
-
-            db.session.commit()
-
-            flash("Your changes have been saved")
-            return redirect(url_for('all_articles'))
-
-        return render_template('edit.html', title='Edit Your Article', article=article_edit)
-    
-    flash("You cannot edit another user's article!")
-    return render_template('index.html', title='The Fit Physicist')
-
-@app.route('/delete/<int:id>/', methods=['GET', 'POST'])
-@login_required
-def delete(id):
-    article_to_delete = Article.query.get_or_404(id)
-
-    if current_user.username == article_to_delete.author:
-        if request.method == 'GET':
-            return render_template('confirm_delete.html', article=article_to_delete)
-        
-        Comment.query.filter_by(article_id=id).delete()
-        db.session.delete(article_to_delete)
-        db.session.commit()
-        flash("Your article has been deleted")
-        return redirect(url_for('index'))
-    
-    flash('You are not authorized to delete this article!')
-    return redirect(url_for('index'))
-
-
-
 if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=False)
             

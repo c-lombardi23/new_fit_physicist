@@ -14,15 +14,15 @@
 
   {% if current_user.id == article.user_id %}
     <div class="button-group" role="group">
-      <a class="btn btn-primary" href="{{url_for('edit', id=article.id)}}">Update</a> 
-      <a class="btn btn-primary" href="{{url_for('delete', id=article.id)}}">Delete</a>
+      <a class="btn btn-primary" href="{{url_for('authenticate.edit', id=article.id)}}">Update</a> 
+      <a class="btn btn-primary" href="{{url_for('authenticate.delete', id=article.id)}}">Delete</a>
       <a class="btn btn-primary" data-toggle="modal" data-target="#commentModal{{article.id}}">Leave a Comment</a>
-      <a class="btn btn-primary" href="{{url_for('single_article', article_id=article.id)}}">View Comments</a>
+      <a class="btn btn-primary" href="{{url_for('article.single_article', article_id=article.id)}}">View Comments</a>
     </div>
   {% else %}
     <div class="button-group" role="group">
       <a class="btn btn-primary" data-toggle="modal" data-target="#commentModal{{ article.id }}">Leave a Comment</a>
-      <a class="btn btn-primary" href="{{url_for('single_article', article_id=article.id)}}">View Comments</a>
+      <a class="btn btn-primary" href="{{url_for('article.single_article', article_id=article.id)}}">View Comments</a>
     </div>
   {% endif %}
 
@@ -37,7 +37,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="{{ url_for('submit_comment', article_id=article.id) }}">
+          <form method="POST" action="{{ url_for('article.submit_comment', article_id=article.id) }}">
             {{ comment_form.hidden_tag() }}
             <div class="form-group">
               {{ comment_form.name.label }}

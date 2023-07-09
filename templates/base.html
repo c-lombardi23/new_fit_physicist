@@ -17,7 +17,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container">
-            <a href="{{url_for('index')}}" class="navbar-brand">The Fit Physicist</a>
+            <a href="{{url_for('main.index')}}" class="navbar-brand">The Fit Physicist</a>
 
             <button 
             class="navbar-toggler"
@@ -28,7 +28,7 @@
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="search-form">
-                <form class="d-flex input-group w-auto" method="GET" action="{{url_for('search')}}">
+                <form class="d-flex input-group w-auto" method="GET" action="{{url_for('authenticate.search')}}">
                     <input
                       type="search"
                       class="form-control rounded"
@@ -44,28 +44,28 @@
                   </form>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="{{url_for('index')}}" class="nav-link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url_for('about')}}" class="nav-link">About</a>
+                        <a href="{{url_for('main.about')}}" class="nav-link">About</a>
                     </li>
                     <li class="nav-item">
-                      <a href="{{url_for('all_workout_articles')}}" class="nav-link">Workouts</a>
+                      <a href="{{url_for('main.all_workout_articles')}}" class="nav-link">Workouts</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url_for('article')}}" class="nav-link">Featured Articles</a>
+                        <a href="{{url_for('main.article')}}" class="nav-link">Featured Articles</a>
                     </li>
                     <li class="nav-item">
-                      <a href="{{url_for('all_articles')}}" class="nav-link">Blog</a>
+                      <a href="{{url_for('main.all_articles')}}" class="nav-link">Blog</a>
                   </li>
                     <li class="nav-item">
-                        <a href="{{url_for('contribute')}}" class="nav-link">Contribute</a>
+                        <a href="{{url_for('main.contribute')}}" class="nav-link">Contribute</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{url_for('contact')}}" class="nav-link">Contact</a>
+                        <a href="{{url_for('main.contact')}}" class="nav-link">Contact</a>
                     </li>
                     <li class="nav-item">
-                      <a href="{{url_for('logout')}}" class="nav-link">Logout</a>
+                      <a href="{{url_for('authenticate.logout')}}" class="nav-link">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -147,7 +147,7 @@
               Services
             </h6>
             <p>
-              <a href="{{url_for('all_workout_articles')}}" class="text-reset">Workouts</a>
+              <a href="{{url_for('main.all_workout_articles')}}" class="text-reset">Workouts</a>
             </p>
             <p>
               <a href="#!" class="text-reset">Nutrition</a>
@@ -168,16 +168,16 @@
               Navigation
             </h6>
             <p>
-              <a href="{{url_for('about')}}" class="text-reset">About</a>
+              <a href="{{url_for('main.about')}}" class="text-reset">About</a>
             </p>
             <p>
-              <a href="{{url_for('article')}}" class="text-reset">Articles</a>
+              <a href="{{url_for('main.article')}}" class="text-reset">Articles</a>
             </p>
             <p>
-              <a href="{{url_for('contribute')}}" class="text-reset">Contribute</a>
+              <a href="{{url_for('main.contribute')}}" class="text-reset">Contribute</a>
             </p>
             <p>
-              <a href="{{url_for('contact')}}" class="text-reset">Contact</a>
+              <a href="{{url_for('main.contact')}}" class="text-reset">Contact</a>
             </p>
           </div>
           <!-- Grid column -->

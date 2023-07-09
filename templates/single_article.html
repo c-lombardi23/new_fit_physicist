@@ -29,7 +29,7 @@
     <p><strong>{{ comment.user.username }}</strong> said on {{ comment.created_on.strftime('%b/%d/%Y') }}:</p>
     <p>{{ comment.text }}</p>
     {% if current_user.id == comment.user_id or current_user.id == 1 %}
-    <form method="POST" action="{{ url_for('delete_comment', comment_id=comment.id) }}">
+    <form method="POST" action="{{ url_for('article.delete_comment', comment_id=comment.id) }}">
       <button type="submit" class="btn btn-danger">Delete</button>
     </form>
   {% endif %}
