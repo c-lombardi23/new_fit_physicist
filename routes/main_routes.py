@@ -1,4 +1,4 @@
-from flask import flash, request, render_template, redirect, Blueprint, url_for, jsonify
+from flask import flash, request, render_template, redirect, Blueprint, url_for, jsonify, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail, Message
 from models_forms import User, Article, Comment, CommentForm
@@ -190,7 +190,7 @@ def contribute():
                 
         if image:
             filename = secure_filename(image.filename)
-            image.save(os.path.join(request.app.config['UPLOAD_FOLDER'], filename))
+            image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             new_article = Article(title=title, content=content, user_id=user_id, author=author, image=filename, topic=topic)
         else:
             new_article = Article(title=title, content=content, user_id=user_id, author=author, image=None, topic=topic)
