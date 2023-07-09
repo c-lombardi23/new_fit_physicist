@@ -190,7 +190,7 @@ def contribute():
                 
         if image:
             filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            image.save(os.path.join(request.app.config['UPLOAD_FOLDER'], filename))
             new_article = Article(title=title, content=content, user_id=user_id, author=author, image=filename, topic=topic)
         else:
             new_article = Article(title=title, content=content, user_id=user_id, author=author, image=None, topic=topic)
