@@ -5,6 +5,7 @@ from models_forms import Comment, CommentForm, Article, User
 from werkzeug.utils import secure_filename, send_from_directory
 from models_forms import db
 from datetime import datetime
+import os
 
 article_bp = Blueprint('article', __name__)
 
