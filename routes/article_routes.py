@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, Blueprint, url_for
+from flask import flash, redirect, render_template, request, Blueprint, url_for, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_required, current_user
 from models_forms import Comment, CommentForm, Article, User
@@ -145,13 +145,13 @@ def edit(id):
             if new_image:
                 if article_edit.image:
                     # Remove the existing image file from the file system
-                    old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], article_edit.image)
+                    old_image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], article_edit.image)
                     if os.path.exists(old_image_path):
                         os.remove(old_image_path)
 
                 # Save the new image file to the file system
                 filename = secure_filename(new_image.filename)
-                new_image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                new_image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
                 article_edit.image = filename
                 
 
