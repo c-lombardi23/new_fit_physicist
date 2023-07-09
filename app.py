@@ -11,7 +11,7 @@ from models_forms import db
 from routes.main_routes import main_bp
 from routes.authenticate_routes import authenticate_bp
 from routes.article_routes import article_bp
-from models_forms import User
+from models_forms import User, Article, Comment
 import psycopg2
 
 
@@ -71,9 +71,10 @@ def index_sitemap():
 def sitemap():
     return sitemap.sitemap_xml()
 
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+    
     app.run(debug=False)
             
