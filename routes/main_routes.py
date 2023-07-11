@@ -9,8 +9,11 @@ from flask_login import current_user, login_required, login_user
 from models_forms import db
 import re
 import os
+from routes.uploads_routes import uploads_bp
 
 main_bp = Blueprint('main', __name__)
+
+main_bp.register_blueprint(uploads_bp)
 
 
 @main_bp.route('/about')

@@ -1,4 +1,4 @@
-html, body {
+html, body{
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
@@ -28,9 +28,7 @@ html, body {
     }
 }
 
-body {
-    animation: pulsate 5s ease-in-out infinite;
-}
+
 
 .form-control.rounded {
     border-radius: 20px; /* Adjust the border radius as needed */
@@ -80,6 +78,7 @@ footer {
     text-shadow: 1px 1px 1px black;
     background-color: black;
     margin-top: 20px;
+  
 }
 .footer a {
   text-decoration: none;

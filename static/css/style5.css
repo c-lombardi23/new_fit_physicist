@@ -34,11 +34,11 @@ h1 {
 
 @media screen and (max-width: 1050px) {
     .card {
-        margin-left: 6em;
+        margin-left: 5em;
        
     }
     h1 {
-        margin-left: 1em;
+       text-align: center;
     }
     }
 

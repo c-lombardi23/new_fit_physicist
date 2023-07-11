@@ -85,6 +85,7 @@ p {
     }
     .card {
         width: 90vw;
+        margin-left: 0.3em ;
     }
 }
     

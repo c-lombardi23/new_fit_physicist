@@ -1,5 +1,5 @@
 html, body {
-    animation: gradient 15s ease infinite
+    background-color: black;
 }
 h1 {
     color: white;
@@ -61,6 +61,22 @@ img {
     margin-right: 20px;
     margin-left: -30px;
 }
+@media screen and (max-width: 1050px) {
+    h1 {
+        text-align: center;
+        font-size: 4em;
+    }
+    img {
+        margin-left: 5em;
+    }
+    #social {
+        margin-left: 3em;
+    }
+    p {
+        margin-left: 1em;
+    }
+}
+
 
 h3 {
     color: white;

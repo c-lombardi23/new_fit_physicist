@@ -11,7 +11,7 @@ from models_forms import db
 from routes.main_routes import main_bp
 from routes.authenticate_routes import authenticate_bp
 from routes.article_routes import article_bp
-from models_forms import User, Article, Comment
+from models_forms import User
 import psycopg2
 
 
@@ -54,6 +54,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db.init_app(app)
 migrate = Migrate(app, db)
 
+with app.app_context():
+    db.create_all()
+
  
 @sitemap.register_generator
 def index_sitemap():
@@ -71,8 +74,6 @@ def index_sitemap():
 def sitemap():
     return sitemap.sitemap_xml()
 
-with app.app_context():
-    db.create_all()
 
 if __name__ == '__main__':
     

@@ -37,6 +37,19 @@ html, body {
     box-shadow: 1px 1px 1px black;
     
 }
+
+@media screen and (max-width: 1050px) {
+    .article-image {
+        width: 15em;
+       
+    }
+    .jumbotron-header {
+        width: 25em;
+    }
+    
+    }
+
+
 h2 {
     color: white;
     font-family: 'Rubik';

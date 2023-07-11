@@ -6,8 +6,11 @@ from werkzeug.utils import secure_filename, send_from_directory
 from models_forms import db
 from datetime import datetime
 import os
+from routes.uploads_routes import uploads_bp
 
 article_bp = Blueprint('article', __name__)
+
+article_bp.register_blueprint(uploads_bp)
 
 
 @article_bp.route('/submit_comment/<int:article_id>', methods=["POST"])

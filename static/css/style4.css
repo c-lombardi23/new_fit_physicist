@@ -1,14 +1,11 @@
-html,
-body {
-    animation: gradient 15s ease infinite;
-}
+
 .atom {
     position: absolute;
     top: 65px;
     right: 105px;
     width: 25vw;
     height: auto;
-    opacity: .2;
+    opacity: 0.3;
     
     
 }
@@ -49,7 +46,7 @@ body {
     .shadows {
         height: 60vh;
         text-align: center;
-        font-size: 4em;
+        font-size: 3.5em;
         margin-left: 1em;
     }
     .atom {
