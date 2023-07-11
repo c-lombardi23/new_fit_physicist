@@ -12,7 +12,7 @@
     <p class="lead">Written By: {{article.author}}<br>
       <p>Published on: {{article.created_on.strftime('%b/%d/%Y')}}</p></p>
       {% if article.image %}
-      <img src="{{ url_for('uploads.get_uploaded_file', filename=article.image) }}" alt="Article Image" class="article-image" />
+      <img src="{{ url_for('static', filename='uploads/' + article.image) }}" alt="Article Image" class="article-image" />
       {% endif %}
       <p class ="content">{{ article.content | safe }}</p>
   </div>
