@@ -46,8 +46,7 @@ html, body {
     .jumbotron-header {
         width: 25em;
     }
-    
-    }
+}
 
 
 h2 {
@@ -60,13 +59,18 @@ ol {
     color: white;
     font-family: 'Rubik';
     text-shadow: 1px 1px 1px black;
-    text-align: left;
+    text-align: center;
     font-size: 18px;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+  }
+
 p {
     color: white;
     text-shadow: 1px 1px 1px black;
-    
     
 }
 .article-control {
