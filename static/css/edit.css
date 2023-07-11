@@ -27,7 +27,11 @@ h3{
         width: 90%;
         margin-left: 1.5em;
     }
+    .ql-editor {
+      max-width: 300px;
+    }
 }
+
 .form-group {
     font-family: 'Rubik';
     color: white;

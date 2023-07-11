@@ -33,6 +33,7 @@ h1 {
     margin-bottom: 10px;
     overflow: hidden;
     width: 50vw;
+    max-width: 50vw;
    
 }
 

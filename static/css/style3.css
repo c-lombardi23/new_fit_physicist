@@ -8,7 +8,7 @@ h1 {
     text-shadow: 2px 2px 3px black;
     animation: glow 3s ease-in-out infinite;
     font-size: 5.625em;
-    margin-top: 0.8em;
+    margin-top: 0.5em;
     padding: 0.5em;
 }
 #subheader {
@@ -31,7 +31,7 @@ h1 {
 img {
     height: 35%;
     width: 60%;
-    margin-left: 50px;
+    margin-left: 5em;
     border-radius: 110px;
     border-color: white;
     border: 2px solid white;

@@ -19,16 +19,13 @@ h3 {
      
   }
   .form-group  {
-    width: 90%;
+    max-width: 90%;
     margin-left: 1em;
     
   }
   
-  .custom-file-input::before {
-    margin-left: 1em;
-  }
-  .form-group input[type="submit"]{
-    margin-left: 1em;
+  .ql-editor {
+    max-width: 450px;
   }
   }
   
@@ -130,6 +127,7 @@ h3 {
 
 .ql-container {
   border: 1px solid #ccc;
+  
 }
 
 .ql-toolbar {
