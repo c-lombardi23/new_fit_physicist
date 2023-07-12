@@ -49,6 +49,9 @@ html, body {
     .jumbotron-header h1 {
         font-size: 60px;
     }
+    .jumbotron {
+        max-width: 90vw;
+    }
 }
 
 
