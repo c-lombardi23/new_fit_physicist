@@ -69,13 +69,14 @@ img {
         margin-left: 5em;
     }
     #social {
-        margin-left: 5em;
+        margin-left: 4em;
     }
     p {
         margin-left: 1.5em;
     }
     #subheader {
         width: 90vw;
+        margin-left: -10px;
     }
 }
 h4 {
