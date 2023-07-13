@@ -52,8 +52,15 @@
     .atom {
         display: none;
     }
-    
-}
+    .carousel {
+        width: 100vw;
+    }
+    p {
+        text-align: center;
+        margin-left: 1em
+    }
+    }
+
 
 .custom-heading {
     color: white;
