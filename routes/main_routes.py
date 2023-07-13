@@ -157,7 +157,7 @@ def article():
             'title': 'Deadlift Basics',
             'description': 'This article provides the basic setup and techniques of the deaflift movement',
             'image': 'https://www.americanfootballinternational.com/wp-content/uploads/Barbend-2021-Deadlift-620x400.png',
-            'url': url_for('article.single_article', article_id=14)
+            'url': url_for('article.single_article', article_id=1)
         },
         {
             'title': 'Supplementation',
@@ -169,7 +169,7 @@ def article():
             'title': 'Recovery',
             'description': 'Various techniques to enhance and facilitate recovery from strenous exercise',
             'image': 'https://images.pexels.com/photos/3076509/pexels-photo-3076509.jpeg?auto=compress&cs=tinysrgb&w=600',
-            'url': url_for('article.cardio_article')
+            'url': url_for('article.recovery_article')
         }
     ]
 

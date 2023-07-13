@@ -66,6 +66,10 @@ def view_all():
     comment_form = CommentForm()
     return render_template('new.html', articles=articles, comment_form=comment_form)
 
+@article_bp.route('/recovery')
+def recovery_article():
+    return render_template('recovery.html', title='The Fit Physicist - Recovery')
+
 
 @article_bp.route('/cardio_workouts')
 def cardio_article():
