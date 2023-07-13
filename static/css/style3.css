@@ -78,7 +78,19 @@ img {
         width: 90vw;
     }
 }
+h4 {
+    color: white;
+    font-family: 'Rubik';
+    text-shadow: 1px 1px 1px black;
+}
 
+.jumbotron {
+    background-image: url('https://arc.losrios.edu/arc/main/img/ARC03-Academics/instruction/ARC-Science-and-Engineering-Division/ARC-Physics-and-Engineering/ARC-Physical-Science/ARC-physics-940x529.jpg');
+    padding: 20px;
+    margin-top: 5px;
+    margin-right:12px;
+    border-radius: 5px;
+}
 
 h3 {
     color: white;
