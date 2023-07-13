@@ -41,10 +41,9 @@ img {
     text-shadow: 1px 1px 1px black;
     padding: 10px;
     margin-top: 10px;
+    margin-left: 150px;
 }
-.social {
-    margin-right: 10px;
-}
+
 
 @keyframes glow {
     0% {
@@ -67,13 +66,13 @@ img {
         font-size: 4em;
     }
     img {
-        margin-left: 5em;
+        margin-left: 5.8em;
     }
     #social {
-        margin-left: 3em;
+        margin-left: 7em;
     }
     p {
-        margin-left: 1em;
+        margin-left: 1.5em;
     }
 }
 
@@ -98,6 +97,6 @@ p {
 }
 ul {
     color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Rubik';
     text-shadow: 1px 1px 1px black;
 }
