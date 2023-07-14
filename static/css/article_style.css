@@ -43,10 +43,11 @@ html, body {
         width: 15em;
     }
     .jumbotron {
-        width: 85vw;
+        width: 90vw;
     }
     .jumbotron-header h1 {
-        font-size: 58px;
+        font-size: 50px;
+        max-width: 70vw;
     }
     
 

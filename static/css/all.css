@@ -10,6 +10,7 @@ h1 {
     text-shadow: 2px 2px 3px black;
     animation: glow 2s ease-in-out infinite;
     font-size: 90px;
+    margin-right: 50px;
     
 }
 
