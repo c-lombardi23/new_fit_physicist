@@ -10,7 +10,6 @@ h1 {
     animation: glow 2s ease-in-out infinite;
     font-size: 100px;
     margin-top: 70px;
-    margin-right: 100px;
     text-align: center;
 }
 
@@ -28,10 +27,10 @@ h1 {
 @media screen and (max-width: 1050px) {
     
     .form-container {
-        width: 90%;
+        width: 80%;
     }
-
-    }
+   
+}
 .form-container {
     margin-left: auto;
     margin-right: auto;
@@ -46,6 +45,7 @@ h1 {
 }
 #email::placeholder {
     font-family: 'Rubik';
+    opacity: 0.8;
   }
 .form-group input,
 .form-group select,
