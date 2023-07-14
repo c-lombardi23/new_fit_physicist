@@ -1,10 +1,11 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from flask_login import UserMixin
 from datetime import datetime
+from itsdangerous import URLSafeTimedSerializer
 
 db = SQLAlchemy()
 
@@ -17,6 +18,28 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(80), nullable=False, unique=True)
     password_hash = db.Column(db.Text, nullable=False)
+    is_verified = db.Column(db.Boolean, default=False)
+    email_verification_token = db.Column(db.String(100))
+    
+    
+    def generate_verification_token(self):
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        token = serializer.dumps(self.email, salt='email-verification')
+        self.email_verification_token = token
+        db.session.commit()
+        return token
+
+    def verify_email(self, token):
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        try:
+            email = serializer.loads(token, salt='email-verification', max_age=3600)
+            if email == self.email:
+                self.is_verified = True
+                self.email_verification_token = None
+                db.session.commit()
+                return True
+        except:
+            return False
     
     def __repr__(self):
         return f"User <{self.username}>"
@@ -31,7 +54,7 @@ class Article(db.Model):
     author = db.Column(db.String, nullable=False)
     image = db.Column(db.String)
     is_authenticated = db.Column(db.Boolean, default=False)
-    topic = db.Column(db.String(50), nullable=False)
+    topic = db.Column(db.String(50), nullable=False, default='Blog')
     
 
     user = db.relationship("User", backref=db.backref("articles", lazy=True))

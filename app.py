@@ -48,7 +48,7 @@ UPLOAD_FOLDER = os.path.join(app.root_path, 'static/uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql://fit_physicist_db_kdag_user:lY9q7gP7Ifrcsqvy9ZdYEQvyq0piFguY@dpg-ciopioenqql5rtb1t0b0-a:5432/fit_physicist_db_kdag"
+app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql://fit_physicist_database_user:1rADt20ms1EOrP8F3EfpymJwT7oIS4kx@dpg-cioqc5h5rnurl3u99chg-a:5432/fit_physicist_database"
 app.config["SQLACLHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = 'you-will-never-guess1315123'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
