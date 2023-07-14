@@ -15,7 +15,7 @@ h3 {
 @media screen and (max-width: 1050px) {
   h3{
      font-size: 3em;
-     padding-left: 1em;
+     text-align: center;
      
   }
   .form-group  {
