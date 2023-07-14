@@ -24,7 +24,7 @@ h1 {
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 80%;
+    width: 100%;
     height: 2px;
     background-color: #a6c0fe;
   }
@@ -66,18 +66,20 @@ img {
         font-size: 4em;
     }
     img {
-        margin-left: 5em;
+        margin-left: 6em;
     }
     #social {
-        margin-left: 4em;
+        margin-left: 6em;
     }
-    p {
+    .specific {
         margin-left: 1.5em;
     }
     #subheader {
         width: 90vw;
-        margin-left: -10px;
+        text-align: center;
+        margin-left: -0.1px;
     }
+    
 }
 h4 {
     color: white;
