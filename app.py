@@ -12,6 +12,7 @@ from routes.main_routes import main_bp
 from routes.authenticate_routes import authenticate_bp
 from routes.article_routes import article_bp
 from models_forms import User
+import psycopg2
 
 
 
