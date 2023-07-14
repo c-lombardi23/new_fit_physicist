@@ -12,7 +12,7 @@ from routes.main_routes import main_bp
 from routes.authenticate_routes import authenticate_bp
 from routes.article_routes import article_bp
 from models_forms import User
-import psycopg2
+
 
 
 
@@ -22,12 +22,13 @@ app.register_blueprint(authenticate_bp)
 app.register_blueprint(article_bp)
 
 
-app.config['MAIL_SERVER'] = 'smtp@gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'clombar1@email.essex.edu'
 app.config['MAIL_PASSWORD'] = 'lcjtpfdsfgygheqy'
 app.config['SITEMAP_INCLUDE_RULE_WITHOUT_PARAMS'] = True
+app.config['MAIL_DEBUG'] = True
 
 mail = Mail(app)
 sitemap = Sitemap(app=app)
@@ -45,7 +46,7 @@ UPLOAD_FOLDER = os.path.join(app.root_path, 'static/uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://fit_physicist_db_user:1gmkQkS0HPTbXUUFBDikIRuLBzvo4LcQ@dpg-cilii3tgkuvinfl537tg-a:5432/fit_physicist_db"
+app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql://fit_physicist_db_user:1gmkQkS0HPTbXUUFBDikIRuLBzvo4LcQ@dpg-cilii3tgkuvinfl537tg-a:5432/fit_physicist_db"
 app.config["SQLACLHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = 'you-will-never-guess1315123'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
