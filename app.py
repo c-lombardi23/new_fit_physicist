@@ -24,9 +24,9 @@ app.register_blueprint(article_bp)
 
 app.config['MAIL_SERVER'] = 'smtp@gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'clombar1@email.essex.edu'
-app.config['MAIL_PASSWORD'] = '232425'
+app.config['MAIL_PASSWORD'] = 'lcjtpfdsfgygheqy'
 app.config['SITEMAP_INCLUDE_RULE_WITHOUT_PARAMS'] = True
 
 mail = Mail(app)
