@@ -1,7 +1,6 @@
 html, body {
     animation: gradient 15s ease infinite
 }
-
 h1 {
     color: white;
     font-family: 'Rubik';;
@@ -11,7 +10,6 @@ h1 {
     font-size: 70px;
     margin-top: 70px;
 }
-
 @keyframes glow {
     0% {
         text-shadow: 2px 2px 3px black;
@@ -23,6 +21,25 @@ h1 {
         text-shadow: 2px 2px 3px black;
     }
 }
+@media screen and (max-width:1050px) {
+    h1 {
+        font-size: 3em;
+        text-align: center;
+    }
+    .subheader {
+        padding-top: 200px;
+    }
+    .pic {
+       height: 200px;
+       width: 70vw;
+       margin-left: 70px;
+    }
+    h3 {
+        text-align: center;
+    }
+}
+    
+
 h3 {
     color: white;
     font-family: 'Rubik';
