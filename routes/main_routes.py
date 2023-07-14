@@ -4,7 +4,6 @@ from flask_mail import Mail, Message
 from models_forms import User, Article, Comment, CommentForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename, send_from_directory
-import app
 from flask_login import current_user, login_required, login_user
 from models_forms import db
 import re
@@ -15,16 +14,19 @@ main_bp = Blueprint('main', __name__)
 
 main_bp.register_blueprint(uploads_bp)
 
+mail = Mail()
+
 
 @main_bp.route('/about')
 def about():
     return render_template('about.html', title="The Fit Physicist-About")
 
 @main_bp.route('/contact', methods=["GET", "POST"])
+@login_required
 def contact():
     if request.method == "POST":
         sender = request.form.get('name')
-        email = request.form.get('email')
+        email = current_user.email
         title = request.form.get('title')
         message = request.form.get('message')
         priority = request.form.get('priority')
@@ -33,7 +35,7 @@ def contact():
         msg.body = f"Name: {sender}\nEmail: {email}\n\n{message}"
         mail.send(msg)
 
-        return 'Email sent!'
+        flash('Email sent!')
     
     return render_template('contact.html')
 
