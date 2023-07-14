@@ -84,15 +84,27 @@ def index():
             email_regex = r'^[\w\.-]+@[\w\.-]+\.\w+$'
             if not re.match(email_regex, email):
                 return jsonify(message="Invalid email address"), 400
-
+            
+            
+            
 
             # Create a new user
             password_hash = generate_password_hash(password)
             new_user = User(username=username, first_name=first_name, last_name=last_name, email=email, password_hash=password_hash)
             db.session.add(new_user)
+            
             db.session.commit()
-
+            
+            verification_token = new_user.generate_verification_token()
+            
+            verification_link = url_for('main.verify_email', token=verification_token, _external=True)
+            subject = 'Verify Your Email'
+            body = f'Click the following link to verify your email: {verification_link}'
+            msg = Message(subject=subject, body=body, recipients=[email])
+            mail.send(msg)
+            flash("Please Check Your Email For Account Confirmation")
             return jsonify(message="Sign up successful")
+            
 
         elif action == 'login':
    
@@ -111,10 +123,16 @@ def index():
             if not user or not check_password_hash(user.password_hash, password):
                 flash("Incorrect login information! Try again")
                 return jsonify(message="Login failed")
+            
+            if not user.is_verified:
+                flash("Please verify Your Email Before Logging In")
+                return jsonify(message="Email not verified")
 
             login_user(user)
             flash(f"Hello {username}, Welcome to the Fit Physicist!")
             return jsonify(message='Logging you In')
+        
+            return render_template('index.html', title='The Fit Physicist', scrollToTop = True)
                 
     
     articles = Article.query.all()
@@ -122,7 +140,20 @@ def index():
         "articles": articles
     }
 
-    return render_template('index.html', title='The Fit Physicist', **context)
+    return render_template('index.html', title='The Fit Physicist', **context, scrollToTop=True)
+
+@main_bp.route('/verify_email/<token>')
+def verify_email(token):
+    user = User.query.filter_by(email_verification_token=token).first()
+    if user:
+        if user.verify_email(token):
+            flash('Email verification successful! You can now log in.')
+            return redirect(url_for('main.index'))
+        else:
+            flash('Invalid verification link.')
+    else:
+        flash('User not found.')
+    return redirect(url_for('main.index'))
 
 @main_bp.route('/all_articles')
 @login_required

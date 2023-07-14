@@ -27,7 +27,6 @@ $(document).ready(function () {
         password: password,
       }),
       success: function () {
-        alert("Login successful!");
         location.reload();
       },
       error: function (xhr) {

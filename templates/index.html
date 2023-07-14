@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-
+<div id='top'></div>
 <img src="https://i.ibb.co/m562w1S/atom.png" alt="atom" class="atom"><div class="container1">
   <div class="shadows">
     <span class="letter">T</span>
@@ -265,7 +265,6 @@
                   password: password,
                 }),
                 success: function () {
-                  alert("Login successful!");
                   location.reload();
                 },
                 error: function (xhr) {
@@ -285,6 +284,10 @@
             <a class="btn btn-primary btn-lg" href="{{url_for('main.about')}}" role="button">Learn more</a>
           </p>
         </div>
-  <!-- Footer -->
+        {% if scrollToTop %}
+          <script>
+          window.scrollTo({top: 0, behavior: 'smooth'});
+          </script>
+          {% endif %}
  
 {% endblock %}

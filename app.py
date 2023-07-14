@@ -16,18 +16,21 @@ import psycopg2
 
 
 
+
 app = Flask(__name__, static_url_path='/static')
 app.register_blueprint(main_bp)
 app.register_blueprint(authenticate_bp)
 app.register_blueprint(article_bp)
 
 
-app.config['MAIL_SERVER'] = 'smtp@gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'clombar1@email.essex.edu'
-app.config['MAIL_PASSWORD'] = '232425'
+app.config['MAIL_PASSWORD'] = 'lcjtpfdsfgygheqy'
 app.config['SITEMAP_INCLUDE_RULE_WITHOUT_PARAMS'] = True
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_DEFAULT_SENDER'] = 'clombar1@email.essex.edu'
 
 mail = Mail(app)
 sitemap = Sitemap(app=app)
@@ -45,7 +48,7 @@ UPLOAD_FOLDER = os.path.join(app.root_path, 'static/uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://fit_physicist_db_user:1gmkQkS0HPTbXUUFBDikIRuLBzvo4LcQ@dpg-cilii3tgkuvinfl537tg-a:5432/fit_physicist_db"
+app.config["SQLALCHEMY_DATABASE_URI"] =  "postgresql://fit_physicist_db_kdag_user:lY9q7gP7Ifrcsqvy9ZdYEQvyq0piFguY@dpg-ciopioenqql5rtb1t0b0-a:5432/fit_physicist_db_kdag"
 app.config["SQLACLHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = 'you-will-never-guess1315123'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
