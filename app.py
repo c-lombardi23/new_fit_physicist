@@ -11,7 +11,10 @@ from models_forms import db
 from routes.main_routes import main_bp
 from routes.authenticate_routes import authenticate_bp
 from routes.article_routes import article_bp
-from models_forms import User
+from models_forms import User, Article, Comment
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from admin import UserAdminView, ArticleAdminView, CommentAdminView
 import psycopg2
 
 
@@ -21,6 +24,11 @@ app = Flask(__name__, static_url_path='/static')
 app.register_blueprint(main_bp)
 app.register_blueprint(authenticate_bp)
 app.register_blueprint(article_bp)
+
+admin = Admin(app, name='The Fit Physicist Admin')
+admin.add_view(UserAdminView(User, db.session))
+admin.add_view(ArticleAdminView(Article, db.session, name='Articles', endpoint='Articles'))
+admin.add_view(CommentAdminView(Comment, db.session))
 
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -79,6 +87,5 @@ def sitemap():
 
 
 if __name__ == '__main__':
-    
     app.run(debug=False)
             
