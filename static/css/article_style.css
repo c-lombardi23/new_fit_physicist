@@ -50,7 +50,6 @@ html, body {
         max-width: 70vw;
     }
     
-
 }
 
 
@@ -70,12 +69,16 @@ ol {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-left: 0;
+  }
+  ol li {
+    text-align: left;
+    max-width: 70vw;
+    overflow-wrap: break-word;
   }
 
 p {
     color: white;
-    text-shadow: 1px 1px 1px black;
+    text-shadow: 1px 1px 1px black; 
     
 }
 .article-control {
