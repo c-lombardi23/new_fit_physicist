@@ -83,14 +83,14 @@ p {
 }
 @media screen and (max-width: 1050px) {
     h1 {
-        font-size: 74px;
+        font-size: 70px;
     }
     .sidebar {
         display: none;
     }
     .card {
         width: 90vw;
-        margin-left: 0.3em ;
+        margin-left: 0.4em ;
     }
 }
 
