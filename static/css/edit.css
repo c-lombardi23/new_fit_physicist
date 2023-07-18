@@ -30,7 +30,11 @@ h3{
     .ql-editor {
       max-width: 300px;
     }
+    h3 {
+        font-size: 70px;
+    }
 }
+
 
 .form-group {
     font-family: 'Rubik';
