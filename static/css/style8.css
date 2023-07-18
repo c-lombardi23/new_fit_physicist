@@ -38,6 +38,11 @@ h1 {
         text-align: center;
     }
 }
+@media screen and (max-width:880px){
+    .pic{
+        margin-left: 57px;
+    }
+}
     
 
 h3 {
