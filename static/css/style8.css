@@ -25,6 +25,7 @@ h1 {
     h1 {
         font-size: 3em;
         text-align: center;
+        overflow-wrap: break-word;
     }
     .subheader {
         padding-top: 200px;
@@ -46,6 +47,10 @@ h1 {
     .pic{
         margin-left: 57px;
         margin-left: 23px;
+    }
+    h1 {
+        max-width: 90vw;
+        overflow-wrap: break-word;
     }
 }
     
