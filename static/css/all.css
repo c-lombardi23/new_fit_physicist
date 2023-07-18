@@ -108,10 +108,10 @@ p {
 }
 @media screen and (max-width: 480px){
     .card {
-        margin-left: 1em;
+        margin-left: 1.2em;
     }
     h1 {
-        max-width: 85vw;
+        max-width: 80vw;
     }
 }
     
