@@ -30,17 +30,22 @@ h1 {
         padding-top: 200px;
     }
     .pic {
-       height: 200px;
+       height: auto;
        width: 80vw;
-       margin-left: 54px;
     }
     h3 {
         text-align: center;
     }
-}
+    p {
+        margin-left: 10px;
+        max-width: 85vw;
+    }
+    }
+
 @media screen and (max-width:880px){
     .pic{
         margin-left: 57px;
+        margin-left: 23px;
     }
 }
     
