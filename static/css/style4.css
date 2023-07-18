@@ -63,6 +63,11 @@
         text-align: center;
     }
     }
+    @media screen and (max-width: 480px){
+        .shadows {
+            margin-left: 1.7em;
+        }
+    }
 
 
 .custom-heading {
