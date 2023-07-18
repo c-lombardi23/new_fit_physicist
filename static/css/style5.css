@@ -34,7 +34,7 @@ h1 {
 
 @media screen and (max-width: 1050px) {
     .card {
-        margin-left: 3.5em;
+        margin-left: 7em;
        
     }
     h1 {
@@ -52,6 +52,16 @@ h1 {
            font-size: 68px;
         }
         }
+
+@media screen and (max-width: 880px) {
+     .card {
+        margin-left: 3em;
+               
+        }
+            h1 {
+               text-align: center;
+            }
+    }
 
 .card:last-child {
     margin-bottom: 0;
