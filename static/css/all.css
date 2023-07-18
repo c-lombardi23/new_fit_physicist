@@ -83,7 +83,8 @@ p {
 }
 @media screen and (max-width: 1050px) {
     h1 {
-        font-size: 70px;
+        font-size: 68px;
+        margin-left: 0.4em;
     }
     .sidebar {
         display: none;
