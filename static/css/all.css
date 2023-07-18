@@ -110,6 +110,9 @@ p {
     .card {
         margin-left: 1em;
     }
+    h1 {
+        max-width: 85vw;
+    }
 }
     
 h2 {
