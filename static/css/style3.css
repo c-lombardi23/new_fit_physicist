@@ -83,6 +83,9 @@ img {
 }
 @media screen and (max-width: 480px) {
     img {
+        margin-left: 3em;
+    }
+    #social {
         margin-left: 1em;
     }
 }
