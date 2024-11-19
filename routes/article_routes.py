@@ -14,22 +14,32 @@ article_bp.register_blueprint(uploads_bp)
 
 
 @article_bp.route('/submit_comment/<int:article_id>', methods=["POST"])
+@login_required
 def submit_comment(article_id):
     article = Article.query.get_or_404(article_id)
     comment_form = CommentForm()
 
     if comment_form.validate_on_submit():
+        # Check if user is authenticated before proceeding
+        if not current_user.is_authenticated:
+            flash("You need to log in to submit a comment.")
+            return redirect(url_for('login')) 
+
+        # Create a new comment instance
         comment = Comment(
             text=comment_form.content.data,
             user_id=current_user.id,
-            created_on = datetime.now(),
+            created_on=datetime.now(),
             article_id=article.id,
         )
+        
+        # Add the comment to the database
         db.session.add(comment)
         db.session.commit()
         flash("Comment submitted successfully!")
         return redirect(url_for('article.single_article', article_id=article_id))
 
+    # Render the article page with the form and article content
     return render_template('article.html', comment_form=comment_form, article=article)
 
 @article_bp.route('/articles', methods=['GET', 'POST'])
