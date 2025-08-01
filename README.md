@@ -4,7 +4,7 @@
 
 ---
 <a href="https://github.com/c-lombardi23/thefitphysicist.onrender.com">
-  <img align="center" width="900" src="screenshot.png" alt="Screenshot">
+  <img align="center" width="950" src="screenshot.png" alt="Screenshot">
 </a>
 
 ## Features
