@@ -4,7 +4,7 @@
 
 ---
 <a href="https://github.com/c-lombardi23/thefitphysicist.onrender.com">
-  <img align="center" width="900" src="URL_TO_YOUR_NEW.gif" alt="Fiber Cleave Classifier Demo">
+  <img align="center" width="900" src="screenshot.png" alt="Screenshot">
 </a>
 
 ## Features
