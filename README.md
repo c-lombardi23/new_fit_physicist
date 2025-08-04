@@ -1,6 +1,6 @@
 # TheFitPhysicist
 
-**TheFitPhysicist** is a personal blog and portfolio-style web application built with Flask. It features dynamic routing, blog post creation via an admin panel, contact functionality, and sitemap support for SEO. The project is designed to showcase a physicist's work, thoughts, and updates through a sleek, easily maintainable platform.
+**TheFitPhysicist** is a personal blog and portfolio-style web application built with Flask. It features dynamic routing, blog post creation via an admin panel, contact functionality, and sitemap support for SEO. The project is designed to showcase my work, thoughts, and updates through a sleek, easily maintainable platform.
 
 ---
 <a href="https://github.com/c-lombardi23/thefitphysicist.onrender.com">
